@@ -5,11 +5,11 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import * as Icon from "react-native-feather";
 import { themeColors } from "../theme";
 
-
 export default function RegisterScreen() {
     const navigation= useNavigation();
+    
     return(
-        <SafeAreaView className="flex-1 justify-center"> 
+        <SafeAreaView className="bg-stone-900 flex-1 justify-center"> 
                 
             <TouchableOpacity 
                 onPress={()=>navigation.goBack()}
@@ -18,27 +18,28 @@ export default function RegisterScreen() {
             </TouchableOpacity>
             
             <View className="px-25 mb-64 ml-3">
-                <Text className="font-bold ml-3 text-4xl mb-30 mt-10"> Register</Text>
+                <Text className="font-bold ml-3 text-white text-4xl mb-30 mt-10"> Register</Text>
         
                 <View className="flex-row ml-4 mr-7 border-neutral-300 p-1 mt-6 border-b-2 pb-2 ">
                     <Icon.Mail className="mr-3" width={30} height={30} stroke={themeColors.bgColor(1)}/>
-                    <TextInput autoCapitalize="none" autoCompleteType="email" keyboardType="email-address" placeholder="Email"/>
+                    <TextInput style={{ color: 'white' }} autoCapitalize="none" placeholderTextColor='white' autoCompleteType="email" keyboardType="email-address" placeholder="Email"/>
                 </View>
 
                 <View className="flex-row ml-4 mr-7 border-neutral-300 p-1 mt-6 border-b-2 pb-2 ">
                     <Icon.User className="mr-3" width={30} height={30} stroke={themeColors.bgColor(1)}/>
-                    <TextInput autoCapitalize="words" autoCompleteType="name" keyboardType="name-phone-pad" placeholder="Full Name"/>
+                    <TextInput style={{ color: 'white' }} autoCapitalize="words" placeholderTextColor='white' autoCompleteType="name" keyboardType="name-phone-pad" placeholder="Full Name"/>
                 </View>
 
                 <View className="flex-row ml-4 mr-7 border-neutral-300 p-1 mt-6 border-b-2 pb-2 ">
                     <Icon.Lock className="mr-3" width={30} height={30} stroke={themeColors.bgColor(1)}/>
-                    <TextInput style={{width: '80%', flex: 1, paddingVertical: 0}} placeholder="Password" secureTextEntry={true}/>
+                    <TextInput style={{color: 'white', width: '80%', flex: 1, paddingVertical: 0}} placeholderTextColor='white' placeholder="Password" secureTextEntry={true}/>
                 </View>
 
                 <View className="flex-row ml-4 mr-7 border-neutral-300 p-1 mt-6 border-b-2 pb-2 ">
                     <Icon.Lock className="mr-3" width={30} height={30} stroke={themeColors.bgColor(1)}/>
-                    <TextInput style={{width: '80%', flex: 1, paddingVertical: 0}} placeholder="Confirm Password" secureTextEntry={true}/>
+                    <TextInput style={{color: 'white', width: '80%', flex: 1, paddingVertical: 0}} placeholderTextColor='white' placeholder="Confirm Password" secureTextEntry={true}/>
                 </View>
+
             </View>
 
             <View className="absolute bottom-44 w-full z-50">

@@ -8,37 +8,48 @@ import { themeColors } from "../theme";
 export default function WelcomeScreen() {
     const navigation= useNavigation();
     return(
-        <View className="mx-4">
-                <View className="ml-2 py-4 pt-44">
-                    <Text style={{color: themeColors.text}} className="font-bold text-red-500 text-4xl pt-64"> Welcome</Text>
+        <SafeAreaView className="bg-stone-900">
+            <View className="bg-cyan-900 flex-1 pb-9">
+                <Image source={require("../assets/images/Restaurant.jpeg")}
+                    style={{
+                        resizeMode: 'cover',
+                        height: 400,
+                        width: 600,
+                    }}
+                    />
+            </View>
+            <View className="shadow-sm mt-80 pt-2 bg-stone-900 rounded-3xl h-full"> 
+                <View className="py-6 shadow-xl items-center justify-center">
+                    <Text style={{color: themeColors.text}} className=" font-light text-red-500 text-4xl pt-2 justify-center"> Welcome</Text>
                 </View>
 
-                <View className="mx-4 ">
+                <View className="mx-6 py-2">
                     <TouchableOpacity onPress={()=>navigation.navigate('Login')}
-                    style={{textColor: themeColors.bgColor(1)}}
-                            className="border border-4 border-red-500 items-center px-4 py-2 rounded-lg">
-                            <Text style={{color: themeColors.text}} className="font-semibold text-2xl">Log In</Text>
+                            style={{backgroundColor: themeColors.bgColor(1)}}
+                            className="bg-red-500 items-center py-3 shadow rounded-lg">
+                            <Text className="font-bold text-white text-2xl">Log In</Text>
                     </TouchableOpacity>
                 </View>
 
-                <View className="mx-4 pt-4 pb-2">
+                <View className="mx-6 py-0.5">
                     <TouchableOpacity onPress={()=>navigation.navigate('Register')}
                             style={{backgroundColor: themeColors.bgColor(1)}}
-                            className="bg-red-500 items-center px-4 py-3 rounded-lg">
-                            <Text className="font-semibold text-white text-2xl">Register</Text>
+                            className="bg-red-500 items-center py-3 shadow rounded-lg">
+                            <Text className="font-bold text-white text-2xl">Register</Text>
                     </TouchableOpacity>
                 </View>
 
-                <View className="items-center pt-8">
-                    <Text className="text-gray-600 justify-center">Or scan QR only</Text>
+                <View className="items-center pt-16">
+                    <Text className="text-gray-400 justify-center">Or scan QR only</Text>
                 </View>
 
-                <View className="mx-4 pt-2 pb-2">
+                <View className="mx-6 pt-2">
                     <TouchableOpacity onPress={()=>navigation.navigate('Home')}
-                            className="border border-4 border-black-500 items-center px-4 py-2 rounded-lg">
-                            <Text className="font-semibold text-black text-2xl">Scan QR</Text>
+                            className="border border-2 border-white items-center py-2 rounded-lg shadow">
+                            <Text className="font-semibold text-white text-2xl">Scan QR</Text>
                     </TouchableOpacity>
                 </View>
-        </View>
+             </View>
+        </SafeAreaView>
     )
 }

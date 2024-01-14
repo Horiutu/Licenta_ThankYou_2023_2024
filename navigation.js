@@ -8,6 +8,7 @@ import RestaurantScreen from './screens/RestaurantScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
+import AllSetScreen from './screens/AllSetScreen';
 
 export default function Navigation() {
   
@@ -21,7 +22,7 @@ export default function Navigation() {
           <Stack.Screen name="Restaurant" component={RestaurantScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
-
+          <Stack.Screen name="AllSet" component={AllSetScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     )
