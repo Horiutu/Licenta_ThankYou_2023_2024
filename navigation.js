@@ -9,21 +9,22 @@ import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
 import AllSetScreen from './screens/AllSetScreen';
+import LogInBusinessScreen from './screens/LogInBusinessScreen';
 
 export default function Navigation() {
-  
     return(
         <NavigationContainer>
-        <Stack.Navigator screenOptions={{
-            headerShown: false
-        }}>
-          <Stack.Screen name="Welcome" component={WelcomeScreen} />
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Restaurant" component={RestaurantScreen} />
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Register" component={RegisterScreen} />
-          <Stack.Screen name="AllSet" component={AllSetScreen} />
-        </Stack.Navigator>
+          <Stack.Navigator screenOptions={{
+              headerShown: false
+          }}>
+            <Stack.Screen name="Welcome" component={WelcomeScreen} />
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Restaurant" component={RestaurantScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Register" component={RegisterScreen} />
+            <Stack.Screen name="AllSet" component={AllSetScreen} />
+            <Stack.Screen name="LogInBusinessScreen" component={LogInBusinessScreen} />
+          </Stack.Navigator>
       </NavigationContainer>
     )
 }

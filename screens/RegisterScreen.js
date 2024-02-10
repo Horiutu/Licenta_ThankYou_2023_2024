@@ -13,11 +13,11 @@ export default function RegisterScreen() {
                 
             <TouchableOpacity 
                 onPress={()=>navigation.goBack()}
-                className="absolute w-14 ml-3 items-center top-14 left-3 bg-gray-50 p-1 rounded-full shadow">
+                className="absolute w-16 ml-3 items-center top-14 left-3 bg-gray-50 p-1 rounded-full">
                     <Icon.ArrowLeft strokeWidth={3} stroke={themeColors.bgColor(1)}/>
             </TouchableOpacity>
             
-            <View className="px-25 mb-64 ml-3">
+            <View className="px-25 mb-64 ml-3 ">
                 <Text className="font-bold ml-3 text-white text-4xl mb-30 mt-10"> Register</Text>
         
                 <View className="flex-row ml-4 mr-7 border-neutral-300 p-1 mt-6 border-b-2 pb-2 ">
@@ -39,21 +39,32 @@ export default function RegisterScreen() {
                     <Icon.Lock className="mr-3" width={30} height={30} stroke={themeColors.bgColor(1)}/>
                     <TextInput style={{color: 'white', width: '80%', flex: 1, paddingVertical: 0}} placeholderTextColor='white' placeholder="Confirm Password" secureTextEntry={true}/>
                 </View>
-
             </View>
 
-            <View className="absolute bottom-44 w-full z-50">
+            <View className="absolute bottom-56 mb-16 w-full z-50">
+                <TouchableOpacity
+                onPress={()=> navigation.navigate('Home')}
+                className="bg-white flex-row pt-8 justify-center items-center mx-7 rounded-r-lg rounded-l-lg py-3">
+                    <Image source={require("../assets/images/googlepng.png")}
+                    style={{
+                        height: 24,
+                        width: 24,
+                    }}
+                    />
+                </TouchableOpacity>
+            </View>
+
+            <View className="absolute bottom-56 pt-10 w-full z-50">
                 <TouchableOpacity
                 style={{backgroundColor: themeColors.bgColor(1)}}
                 onPress={()=> navigation.navigate('Home')}
-                className="flex-row justify-center items-center mx-7 rounded-r-lg rounded-l-lg py-3 shadow-lg shadow">
+                className="flex-row justify-center items-center mx-7 rounded-r-lg rounded-l-lg py-3">
                     <View>
                         <Text className="flex-1 text-center font-extrabold text-white text-lg">
                             Register
                         </Text>
                     </View>
                 </TouchableOpacity>
-
             </View>
             
            

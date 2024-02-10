@@ -16,9 +16,9 @@ export default function AllSetScreen() {
                         height: 400,
                         width: 600,
                     }}
-                    />
+                />
             </View>
-            <View className="shadow-sm mt-80 pt-2 bg-stone-900 rounded-3xl h-full"> 
+            <View className="mt-80 pt-2 bg-stone-900 rounded-3xl h-full"> 
                 <View className="items-center pt-16">
                     <Image source={require("../assets/images/checkmark.png")}
                         style={{
@@ -28,19 +28,16 @@ export default function AllSetScreen() {
                         }}
                         />
                 </View>
-                <View className="py-4 pb-14 shadow-xl items-center">
+                <View className="py-4 pb-14 items-center">
                     <Text style={{color: themeColors.text}} className=" font-light text-red-500 text-5xl pt-2 pr-2"> All set!</Text>
                 </View>
                 <View className="mx-6 py-0.5">
                     <TouchableOpacity onPress={()=>navigation.navigate('Home')}
                             style={{backgroundColor: themeColors.bgColor(1)}}
-                            className="bg-red-500 items-center py-3 shadow rounded-lg">
+                            className="bg-red-500 items-center py-3 rounded-lg">
                             <Text className="font-light text-white text-2xl">Home</Text>
                     </TouchableOpacity>
                 </View>
-
-    
-
              </View>
         </SafeAreaView>
     )
