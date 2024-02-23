@@ -34,7 +34,7 @@ export default function WelcomeScreen() {
                 <View className="mx-6 py-0.5">
                     <TouchableOpacity onPress={()=>navigation.navigate('Register')}
                             style={{backgroundColor: themeColors.bgColor(1)}}
-                            className="bg-red-500 items-center py-3">
+                            className="bg-red-500 items-center rounded-lg py-3">
                             <Text className="font-bold text-white text-2xl">Register</Text>
                     </TouchableOpacity>
                 </View>

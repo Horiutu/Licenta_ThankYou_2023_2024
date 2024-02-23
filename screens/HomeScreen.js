@@ -7,7 +7,7 @@ import Categories from "../components/categories";
 import FeaturedRow from "../components/featuredRow";
 import { featured } from "../constants/index";
 import ScanQR from "../components/scanQR";
-import Menu from "../components/Menu";
+
 
 export default function HomeScreen() {
     return(

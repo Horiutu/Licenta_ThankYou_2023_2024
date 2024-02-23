@@ -10,6 +10,7 @@ import RegisterScreen from './screens/RegisterScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
 import AllSetScreen from './screens/AllSetScreen';
 import LogInBusinessScreen from './screens/LogInBusinessScreen';
+import BusinessHomeScreen from './screens/BusinessHomeScreen';
 
 export default function Navigation() {
     return(
@@ -17,6 +18,7 @@ export default function Navigation() {
           <Stack.Navigator screenOptions={{
               headerShown: false
           }}>
+            <Stack.Screen name="BusinessHomeScreen" component={BusinessHomeScreen} />
             <Stack.Screen name="Welcome" component={WelcomeScreen} />
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Restaurant" component={RestaurantScreen} />
