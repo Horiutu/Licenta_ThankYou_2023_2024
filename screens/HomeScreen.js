@@ -7,9 +7,12 @@ import Categories from "../components/categories";
 import FeaturedRow from "../components/featuredRow";
 import { featured } from "../constants/index";
 import ScanQR from "../components/scanQR";
-
+import { useState } from 'react';
+import DropDownMenu from '../components/dropdownmenuhome';
+import { useNavigation } from "@react-navigation/native";
 
 export default function HomeScreen() {
+    const navigation = useNavigation();
     return(
         <SafeAreaView className="bg-white">
             <StatusBar barStyle="dark-content"/>
@@ -22,9 +25,9 @@ export default function HomeScreen() {
                         <Text className="text-black">Location</Text>
                     </View>
                 </View>
-                <View style={{backgroundColor: themeColors.bgColor(1)}} className="p-3 rounded-full">
-                    <TouchableOpacity>  
-                        <Icon.Menu height="15" width="25" strokeWidth={2.5} stroke= "white"/>
+                <View style={{backgroundColor: themeColors.bgColor(1)}} className="ml-3 p-3 rounded-full">
+                    <TouchableOpacity onPress={()=> navigation.navigate('UserProfile')}>  
+                        <Icon.User height="15" width="25" strokeWidth={2.5} stroke= "white"/>
                     </TouchableOpacity>
                 </View>
             </View>

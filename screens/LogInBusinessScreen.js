@@ -46,7 +46,7 @@ export default function LogInBusinessScreen() {
             <View className="absolute bottom-48 w-full z-50">
                 <TouchableOpacity
                 style={{backgroundColor: themeColors.bgColor(1)}}
-                onPress={()=>navigation.navigate('AllSet')}
+                onPress={()=>navigation.navigate('BusinessHome')}
                 className="flex-row justify-center items-center mx-7 rounded-r-lg rounded-l-lg py-3">
                     <View>
                         <Text className="flex-1 text-center font-extrabold text-white text-lg">
