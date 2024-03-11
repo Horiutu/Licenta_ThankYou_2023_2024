@@ -10,6 +10,7 @@ import ScanQR from "../components/scanQR";
 import { useState } from 'react';
 import DropDownMenu from '../components/dropdownmenuhome';
 import { useNavigation } from "@react-navigation/native";
+import QRCodeScanner from "../components/scanQrCamera";
 
 export default function HomeScreen() {
     const navigation = useNavigation();
@@ -55,9 +56,7 @@ export default function HomeScreen() {
                 }
 
             </View>
-
             <View className="bg-white mt-80 shadow shadow-lg">
-                <ScanQR/>
             </View>
             
         </SafeAreaView>

@@ -13,7 +13,7 @@ export default function ScanQR() {
             className="flex-row justify-center items-center mx-5 rounded-r-lg rounded-l-lg p-4 py-3 mb-2 shadow-lg shadow">
                 <View>
                     <Text className="flex-1 text-center font-extrabold text-white text-lg">
-                        Back to Log In 
+                        Scan QR 
                     </Text>
                 </View>
             </TouchableOpacity>

@@ -91,7 +91,7 @@ export const featured = {
         },
         {
             id: 2,
-            name: 'Alisia Cuisine',
+            name: 'Horia Cuisine',
             image: require('../assets/images/pizza.png'),
             description: 'Hot and spicy pizzas',
             lng: -85.5324269,

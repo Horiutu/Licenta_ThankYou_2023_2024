@@ -1,19 +1,26 @@
-import {SafeAreaView, View, ScrollView, Image, Text, TouchableOpacity, TextInput} from "react-native";
-import React from "react";
+import {SafeAreaView, View, ScrollView, Image, Text, TouchableOpacity, TextInput, ActivityIndicatorBase, ActivityIndicator} from "react-native";
+import React, {useState} from "react";
 import { LoginSVG } from "../assets/images/login.svg";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import * as Icon from "react-native-feather";
 import { themeColors } from "../theme";
+import { FIREBASE_AUTH } from "../firebase/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { initializeApp } from '@firebase/app';
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from '@firebase/auth';
 
 
 export default function LoginScreen() {
+
+    const auth = FIREBASE_AUTH;
     const navigation= useNavigation();
+
     return(
-        <SafeAreaView className="bg-stone-900 flex-1 justify-center"> 
-                
+        <SafeAreaView className="bg-stone-900 flex-1 justify-center">
+
             <TouchableOpacity 
                 onPress={()=>navigation.goBack()}
-                className="absolute w-16 ml-3 items-center top-14 left-3 bg-white p-1 rounded-full">
+                className="absolute w-24 ml-3 items-center top-14 left-3 bg-white p-1 rounded-full">
                     <Icon.ArrowLeft strokeWidth={3} stroke={themeColors.bgColor(1)}/>
             </TouchableOpacity>
             
@@ -23,7 +30,7 @@ export default function LoginScreen() {
         
                 <View className="flex-row ml-4 mr-7 border-neutral-300 p-1 mt-6 border-b-2 pb-2 ">
                     <Icon.Mail className="mr-3" width={30} height={30} stroke={themeColors.bgColor(1)}/>
-                    <TextInput style={{color:'white'}}placeholderTextColor='white' autoCapitalize="none" keyboardType="email-address" placeholder="Email"/>
+                    <TextInput style={{color:'white'}} placeholderTextColor='white' autoCapitalize="none" keyboardType="email-address" placeholder="Email"/>
                 </View>
 
                 <View className="flex-row ml-4 mr-7 border-neutral-300 p-1 mt-6 border-b-2 pb-2 ">
@@ -36,9 +43,10 @@ export default function LoginScreen() {
             </View>
 
             <View className="absolute bottom-36 w-full z-50">
+
+               
                 <TouchableOpacity
                 style={{backgroundColor: themeColors.bgColor(1)}}
-                onPress={()=>navigation.navigate('AllSet')}
                 className="flex-row justify-center items-center mx-7 rounded-r-lg rounded-l-lg py-3">
                     <View>
                         <Text className="flex-1 text-center font-extrabold text-white text-lg">
@@ -46,6 +54,7 @@ export default function LoginScreen() {
                         </Text>
                     </View>
                 </TouchableOpacity>
+                
 
                 <View className="py-2 items-center">
                     <Text className="text-gray-400">Or, if you don't have an account... </Text>

@@ -1,8 +1,9 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
+const InsideStack = createNativeStackNavigator();
 import { View, Text } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import HomeScreen from './screens/HomeScreen';
 import RestaurantScreen from './screens/RestaurantScreen';
 import LoginScreen from './screens/LoginScreen';
@@ -25,21 +26,28 @@ import UserAppearanceScreen from './screens/UserAppearanceScreen';
 import UserReservationsScreen from './screens/UserReservationsScreen';
 import UserFinanceScreen from './screens/UserFinanceScreen';
 import UserSettingsScreen from './screens/UserSettingsScreen';
+import { onAuthStateChanged } from 'firebase/auth';
+import { FIREBASE_AUTH } from './firebase/firebase';
+import { User } from 'firebase/auth';
+
 
 export default function Navigation() {
-    return(
+
+  
+  return(
         <NavigationContainer>
-          <Stack.Navigator screenOptions={{
+          <Stack.Navigator initialRouteName="Welcome" screenOptions={{
               headerShown: false
           }}>
             <Stack.Screen name="Welcome" component={WelcomeScreen} />
             <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="Restaurant" component={RestaurantScreen} />
-            <Stack.Screen name="UserProfile" component={UserProfileScreen} />
-            <Stack.Screen name="UserAppearance" component={UserAppearanceScreen} />
-            <Stack.Screen name="UserReservations" component={UserReservationsScreen} />
-            <Stack.Screen name="UserFinance" component={UserFinanceScreen} />
-            <Stack.Screen name="UserSettings" component={UserSettingsScreen} />
+        <Stack.Screen name="Restaurant" component={RestaurantScreen} />
+        <Stack.Screen name="UserProfile" component={UserProfileScreen} />
+        <Stack.Screen name="UserAppearance" component={UserAppearanceScreen} />
+        <Stack.Screen name="UserReservations" component={UserReservationsScreen} />
+        <Stack.Screen name="UserFinance" component={UserFinanceScreen} />
+        <Stack.Screen name="UserSettings" component={UserSettingsScreen} />
+
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Register" component={RegisterScreen} />
             <Stack.Screen name="AllSet" component={AllSetScreen} />

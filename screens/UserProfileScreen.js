@@ -4,6 +4,7 @@ import * as Icon from "react-native-feather";
 import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
 import BackButton from "../components/backButton";
+import ReservationCard from "../components/reservationCard";
 
 export default function UserProfileScreen() {
     const navigation= useNavigation();
@@ -43,6 +44,12 @@ export default function UserProfileScreen() {
                     </TouchableOpacity>
                     <Icon.DollarSign className="ml-3 mb-3"strokeWidth={3} stroke={themeColors.bgColor(1)}/>
                 </View>
+
+                <View className="ml-6 pt-6 pb-2">
+                    <Text className="text-2xl font-thin font-s">Your next reservation</Text>
+                </View>
+
+                <ReservationCard/>
                 
                 <View style={{ flexDirection: 'row', alignItems: 'center'}} className="absolute bottom-20">
                     <TouchableOpacity onPress={()=>navigation.navigate('UserSettings')} className="pb-3">

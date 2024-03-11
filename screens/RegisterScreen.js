@@ -1,11 +1,18 @@
-import {SafeAreaView, View, ScrollView, Image, Text, TouchableOpacity, TextInput} from "react-native";
-import React from "react";
+import {SafeAreaView, View, ScrollView, Image, ActivityIndicator, Text, TouchableOpacity, TextInput} from "react-native";
+import React, {useState} from "react";
 import { LoginSVG } from "../assets/images/login.svg";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import * as Icon from "react-native-feather";
 import { themeColors } from "../theme";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { FIREBASE_AUTH } from "../firebase/firebase";
+import { initializeApp } from '@firebase/app';
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from '@firebase/auth';
+
 
 export default function RegisterScreen() {
+  
+    const auth = FIREBASE_AUTH;
     const navigation= useNavigation();
     
     return(
@@ -13,7 +20,7 @@ export default function RegisterScreen() {
                 
             <TouchableOpacity 
                 onPress={()=>navigation.goBack()}
-                className="absolute w-16 ml-3 items-center top-14 left-3 bg-gray-50 p-1 rounded-full">
+                className="absolute w-24 ml-3 items-center top-14 left-3 bg-gray-50 p-1 rounded-full">
                     <Icon.ArrowLeft strokeWidth={3} stroke={themeColors.bgColor(1)}/>
             </TouchableOpacity>
             
@@ -55,9 +62,9 @@ export default function RegisterScreen() {
             </View>
 
             <View className="absolute bottom-56 pt-10 w-full z-50">
+                
                 <TouchableOpacity
                 style={{backgroundColor: themeColors.bgColor(1)}}
-                onPress={()=> navigation.navigate('Home')}
                 className="flex-row justify-center items-center mx-7 rounded-r-lg rounded-l-lg py-3">
                     <View>
                         <Text className="flex-1 text-center font-extrabold text-white text-lg">
