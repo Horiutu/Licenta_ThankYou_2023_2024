@@ -9,7 +9,6 @@ export default function BusinessMenuScreen() {
     const navigation= useNavigation();
     return(
         <SafeAreaView className="bg-stone-900 flex-1"> 
-           
             <TouchableOpacity 
                     onPress={()=>navigation.goBack()}
                     className="absolute w-24 ml-3 items-center top-14 left-3 bg-white py-1 rounded-full">
