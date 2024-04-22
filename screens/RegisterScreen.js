@@ -9,7 +9,6 @@ import {
   TextInput,
 } from "react-native";
 import React, { useState } from "react";
-import { LoginSVG } from "../assets/images/login.svg";
 import { signUp, emailVerification } from "../services/userSignUp";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import * as Icon from "react-native-feather";

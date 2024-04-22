@@ -3,35 +3,38 @@ import React from "react";
 import { featured } from "../constants/index";
 import { themeColors } from "../theme";
 import RestaurantCard from "../components/restaurantCard";
+import MostVisitedRestaurantCard from "./mostVisitedRestaurantCard";
 import { useNavigation } from "@react-navigation/native";
 
-export default function FeaturedRow({ title, restaurants, description }) {
+export default function LeaderBoardMostVisited() {
   const navigation = useNavigation();
   return (
-    <View>
+    <View className="">
       <View className="flex-row justify-between items-center px-4">
         <View>
-          <Text className="font-bold text-lg text-2xl">{title}</Text>
-          <Text className="text-gray-500 text-xs">{description}</Text>
+          <Text className="font-bold text-lg text-2xl">Leaderboard</Text>
+          <Text className="text-gray-500 text-xs">
+            Most Visited Restaurants
+          </Text>
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate("PopularAll")}>
+        <TouchableOpacity onPress={() => navigation.navigate("LeaderboardAll")}>
           <Text style={{ color: themeColors.text }} className="font-semibold">
             See all
           </Text>
         </TouchableOpacity>
       </View>
-      <ScrollView
-        horizontal
+      <View
+        vertical
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
-          paddingHorizontal: 15,
+          paddingVertical: 2,
         }}
         className="overflow-visible py-5"
       >
-        {restaurants.map((restaurant, index) => {
-          return <RestaurantCard item={restaurant} key={index} />;
-        })}
-      </ScrollView>
+        <MostVisitedRestaurantCard />
+        <MostVisitedRestaurantCard />
+        <MostVisitedRestaurantCard />
+      </View>
     </View>
   );
 }
