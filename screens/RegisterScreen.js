@@ -1,9 +1,7 @@
 import {
   SafeAreaView,
   View,
-  ScrollView,
   Image,
-  ActivityIndicator,
   Text,
   TouchableOpacity,
   TextInput,

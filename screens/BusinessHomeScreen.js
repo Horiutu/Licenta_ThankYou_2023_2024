@@ -1,15 +1,13 @@
 import {
   View,
   Text,
-  TextInput,
-  ScrollView,
+
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
 import React from "react";
 import * as Icon from "react-native-feather";
 import { useNavigation } from "@react-navigation/native";
-import withAuthRedirect from "../navigation/withAuthRedirect";
 import { themeColors } from "../theme";
 
 export default function BusinessHomeScreen() {

@@ -1,15 +1,12 @@
 import {
   SafeAreaView,
   View,
-  ScrollView,
   Image,
   Text,
   TouchableOpacity,
-  TextInput,
 } from "react-native";
 import React from "react";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import * as Icon from "react-native-feather";
+import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
 
 export default function AllSetScreen() {

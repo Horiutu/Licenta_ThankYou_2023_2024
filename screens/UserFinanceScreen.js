@@ -13,6 +13,7 @@ import { themeColors } from "../theme";
 import BackButtonBlack from "../components/backButtonBlack";
 import CreditCard from "../components/creditcards";
 import withAuthRedirect from "../navigation/withAuthRedirect";
+import PaymentHistoryCard from "../components/paymentHistoryCard";
 
 export default function UserFinanceScreen() {
   const navigation = useNavigation();
@@ -36,11 +37,34 @@ export default function UserFinanceScreen() {
         <Text className="text-2xl font-thin font-s">Your cards</Text>
       </View>
 
-      <CreditCard />
+      <ScrollView className="pt-2 pb-4">
+        <CreditCard />
+        <CreditCard />
+        <CreditCard />
+        <CreditCard />
+        <CreditCard />
+      </ScrollView>
 
-      <View className="ml-6 pb-2">
-        <Text className="text-2xl font-thin font-s">Your payments</Text>
+      <View className="ml-6 pb-2 pt-2">
+        <Text className="text-2xl font-thin">Your payments</Text>
       </View>
+
+      <ScrollView>
+        <PaymentHistoryCard />
+        <PaymentHistoryCard />
+
+        <PaymentHistoryCard />
+
+        <PaymentHistoryCard />
+
+        <PaymentHistoryCard />
+
+        <PaymentHistoryCard />
+
+        <PaymentHistoryCard />
+
+        <PaymentHistoryCard />
+      </ScrollView>
     </SafeAreaView>
   );
 }

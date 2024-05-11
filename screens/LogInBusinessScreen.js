@@ -1,19 +1,17 @@
 import {
   SafeAreaView,
   View,
-  ScrollView,
-  Image,
   Text,
   TouchableOpacity,
   TextInput,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { LoginSVG } from "../assets/images/login.svg";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import * as Icon from "react-native-feather";
 import { themeColors } from "../theme";
 import { isUserAuthenticated, login, logout } from "../services/userSignIn";
 import { emailVerification } from "../services/utils";
+import BackButtonWhite from "../components/backButtonWhite";
 
 export default function LogInBusinessScreen() {
   const navigation = useNavigation();
@@ -73,12 +71,7 @@ export default function LogInBusinessScreen() {
 
   return (
     <SafeAreaView className="bg-stone-900 flex-1 justify-center">
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        className="absolute w-16 ml-3 items-center top-14 left-3 bg-white p-1 rounded-full"
-      >
-        <Icon.ArrowLeft strokeWidth={3} stroke={themeColors.bgColor(1)} />
-      </TouchableOpacity>
+      <BackButtonWhite />
 
       <View
         style={{ flexDirection: "row", alignItems: "center" }}

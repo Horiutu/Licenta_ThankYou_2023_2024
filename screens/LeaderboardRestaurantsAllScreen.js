@@ -1,20 +1,11 @@
-import {
-  View,
-  Text,
-  TextInput,
-  ScrollView,
-  SafeAreaView,
-  TouchableOpacity,
-} from "react-native";
+import { Text, ScrollView } from "react-native";
 import React from "react";
-import * as Icon from "react-native-feather";
 import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
-import BackButton from "../components/backButton";
 import MostVisitedRestaurantCard from "../components/mostVisitedRestaurantCard";
 import BackButtonBlack from "../components/backButtonBlack";
 
-export default function PopularRestaurantsAllScreeen() {
+export default function LeaderboardRestaurantsAllScreeen() {
   const navigation = useNavigation();
   return (
     <ScrollView className="bg-white flex-1">

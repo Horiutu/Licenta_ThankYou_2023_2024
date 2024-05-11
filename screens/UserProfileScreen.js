@@ -10,7 +10,6 @@ import React from "react";
 import * as Icon from "react-native-feather";
 import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
-import BackButton from "../components/backButton";
 import ReservationCard from "../components/reservationCard";
 import { logout } from "../services/userSignIn";
 import withAuthRedirect from "../navigation/withAuthRedirect";
@@ -111,37 +110,22 @@ export default function UserProfileScreen() {
       <ReservationCard />
 
       <View
+        className="mt-8 ml-6"
         style={{ flexDirection: "row", alignItems: "center" }}
-        className="pt-8"
       >
-        <TouchableOpacity
-          onPress={() => navigation.navigate("UserSettings")}
-          className="pb-3"
-        >
+        <TouchableOpacity onPress={handleLogout} className="">
           <Text
             style={{ color: themeColors.text }}
-            className="font-bold ml-6 text-3xl"
-          >
-            Settings
-          </Text>
-        </TouchableOpacity>
-
-        <Icon.Settings
-          className="ml-3 mb-3"
-          strokeWidth={3}
-          stroke={themeColors.bgColor(1)}
-        />
-      </View>
-
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <TouchableOpacity onPress={handleLogout} className="pb-3">
-          <Text
-            style={{ color: themeColors.text }}
-            className="font-bold ml-6 text-3xl"
+            className="font-bold text-3xl"
           >
             Logout
           </Text>
         </TouchableOpacity>
+        <Icon.CornerDownLeft
+          className="ml-3"
+          strokeWidth={3}
+          stroke={themeColors.bgColor(1)}
+        />
       </View>
     </SafeAreaView>
   );

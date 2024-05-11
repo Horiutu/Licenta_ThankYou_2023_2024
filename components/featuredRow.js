@@ -1,6 +1,5 @@
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import React from "react";
-import { featured } from "../constants/index";
 import { themeColors } from "../theme";
 import RestaurantCard from "../components/restaurantCard";
 import { useNavigation } from "@react-navigation/native";

@@ -10,7 +10,7 @@ import React from "react";
 import * as Icon from "react-native-feather";
 import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
-import BackButton from "../components/backButton";
+import BackButtonBlack from "../components/backButtonBlack";
 import ResReservationCard from "../components/resresCard";
 import withAuthRedirect from "../navigation/withAuthRedirect";
 
@@ -18,7 +18,7 @@ export default function UserReservationsScreen() {
   const navigation = useNavigation();
   return (
     <SafeAreaView className="bg-white flex-1">
-      <BackButton />
+      <BackButtonBlack />
 
       <View
         style={{ flexDirection: "row", alignItems: "center" }}

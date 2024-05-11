@@ -4,6 +4,9 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import * as Icon from "react-native-feather";
 import { themeColors } from "../theme";
 import withAuthRedirect from "../navigation/withAuthRedirect";
+import BackButtonWhite from "../components/backButtonWhite";
+import ContactCard from "../components/contactCard";
+import MenuHome from "../components/menuHome";
 
 export default function RestaurantScreen() {
   const { params } = useRoute();
@@ -14,12 +17,7 @@ export default function RestaurantScreen() {
       <ScrollView>
         <View className="relative">
           <Image className="w-full h-72" source={item.image} />
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            className="absolute w-14 items-center top-14 left-3 bg-gray-50 p-1 rounded-full shadow"
-          >
-            <Icon.ArrowLeft strokeWidth={3} stroke={themeColors.bgColor(1)} />
-          </TouchableOpacity>
+          <BackButtonWhite />
         </View>
         <View
           style={{ borderTopLeftRadius: 40, borderTopRightRadius: 40 }}
@@ -57,6 +55,8 @@ export default function RestaurantScreen() {
             </View>
           </View>
         </View>
+        <ContactCard />
+        <MenuHome />
       </ScrollView>
     </View>
   );

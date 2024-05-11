@@ -1,17 +1,13 @@
 import {
   SafeAreaView,
   View,
-  ScrollView,
   Image,
   Text,
   TouchableOpacity,
-  TextInput,
 } from "react-native";
 import React from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import * as Icon from "react-native-feather";
 import { themeColors } from "../theme";
-import withAuthRedirect from "../navigation/withAuthRedirect";
 
 export default function DashboardScreen() {
   const navigation = useNavigation();

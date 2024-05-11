@@ -2,7 +2,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const Stack = createNativeStackNavigator();
-const InsideStack = createNativeStackNavigator();
 import React from "react";
 import HomeScreen from "../screens/HomeScreen";
 import RestaurantScreen from "../screens/RestaurantScreen";
@@ -12,8 +11,6 @@ import WelcomeScreen from "../screens/WelcomeScreen";
 import AllSetScreen from "../screens/AllSetScreen";
 import LogInBusinessScreen from "../screens/LogInBusinessScreen";
 import BusinessHomeScreen from "../screens/BusinessHomeScreen";
-import DashboardScreen from "../screens/DashboardScreen";
-import SettingsScreen from "../screens/SettingsScreen";
 import BusinessAppearanceScreen from "../screens/BusinessAppearanceScreen";
 import BusinessDetailsScreen from "../screens/BusinessDetailsScreen";
 import BusinessMenuScreen from "../screens/BusinessMenuScreen";
