@@ -26,9 +26,6 @@ import UserAppearanceScreen from "./screens/UserAppearanceScreen";
 import UserReservationsScreen from "./screens/UserReservationsScreen";
 import UserFinanceScreen from "./screens/UserFinanceScreen";
 import UserSettingsScreen from "./screens/UserSettingsScreen";
-import { onAuthStateChanged } from "firebase/auth";
-import { FIREBASE_AUTH } from "./firebase/firebase";
-import { User } from "firebase/auth";
 
 export default function Navigation() {
   return (

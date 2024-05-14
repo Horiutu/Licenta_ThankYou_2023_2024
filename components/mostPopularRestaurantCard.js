@@ -3,7 +3,7 @@ import React from "react";
 import { themeColors } from "../theme";
 import { useNavigation } from "@react-navigation/native";
 
-export default function MostPopularRestaurantCard() {
+export default function MostPopularRestaurantCard({ item }) {
   const navigation = useNavigation();
   return (
     <TouchableWithoutFeedback onPress={() => navigation.navigate("Restaurant")}>

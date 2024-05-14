@@ -6,7 +6,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import * as Icon from "react-native-feather";
 import { themeColors } from "../theme";
@@ -15,9 +15,32 @@ import FeaturedRow from "../components/featuredRow";
 import { featured } from "../constants/index";
 import { useNavigation } from "@react-navigation/native";
 import LeaderBoardMostVisited from "../components/leaderboardVisited";
+import { getDatabase, ref, child, get } from "firebase/database";
 
 export default function HomeScreen() {
   const navigation = useNavigation();
+  const [restaurants, setRestaurants] = useState([]);
+  const countRestaurants = Object.keys(restaurants).length;
+
+  useEffect(() => {
+    const dbRef = ref(getDatabase());
+
+    get(child(dbRef, `restaurants`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const restaurantsArr = [];
+          const data = snapshot.val();
+          Object.keys(data).forEach((key) => restaurantsArr.push(data[key]));
+          setRestaurants(restaurantsArr);
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   return (
     <SafeAreaView className="bg-white">
       <StatusBar barStyle="dark-content" />
@@ -49,16 +72,17 @@ export default function HomeScreen() {
         <Categories />
       </ScrollView>
       <View className="mt-1">
-        {[featured].map((item, index) => {
-          return (
-            <FeaturedRow
-              key={index}
-              title={item.title}
-              restaurants={item.restaurants}
-              description={item.description}
-            />
-          );
-        })}
+        {countRestaurants === 0 ? (
+          <View className="items-center">
+            <Text className="font-semi text-black text-2xl">Loading...</Text>
+          </View>
+        ) : (
+          <FeaturedRow
+            title="Popular"
+            description="Most recently appreciated"
+            restaurants={restaurants}
+          />
+        )}
       </View>
       <LeaderBoardMostVisited />
       <View className="bg-white">

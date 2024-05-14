@@ -1,12 +1,34 @@
-import { View, Image, Text, TouchableWithoutFeedback } from "react-native";
+import {
+  View,
+  Image,
+  Text,
+  TouchableWithoutFeedback,
+  Linking,
+  Alert,
+} from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
 import * as Icon from "react-native-feather";
 import { TouchableOpacity } from "react-native";
 
-export default function ContactCard() {
-  const navigation = useNavigation();
+export default function ContactCard({ location, phone_number, schedule }) {
+  const openGoogleMaps = (searchQuery) => {
+    const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+      searchQuery
+    )}`;
+
+    Linking.canOpenURL(url)
+      .then((supported) => {
+        if (supported) {
+          Linking.openURL(url);
+        } else {
+          Alert.alert("Error", "Google Maps is not available");
+        }
+      })
+      .catch((err) => console.error("An error occurred", err));
+  };
+
   return (
     <View
       className="bg-white"
@@ -28,18 +50,40 @@ export default function ContactCard() {
         style={{ flexDirection: "row", alignItems: "center" }}
       >
         <Icon.Phone strokeWidth={2} stroke={themeColors.bgColor(1)} />
-        <Text className="font-semi text-sm ml-2">0740404040</Text>
+        <Text className="font-semi text-sm ml-2">{phone_number}</Text>
+      </View>
+      <View
+        className="ml-8 mt-2"
+        style={{ flexDirection: "row", alignItems: "center" }}
+      >
+        <Icon.MapPin strokeWidth={2} stroke={themeColors.bgColor(1)} />
+        <Text className="font-semi text-sm ml-2">{location.address}</Text>
       </View>
       <View
         className="ml-8 mt-2 mb-4"
         style={{ flexDirection: "row", alignItems: "center" }}
       >
-        <Icon.MapPin strokeWidth={2} stroke={themeColors.bgColor(1)} />
-        <Text className="font-semi text-sm ml-2">
-          Str. Peru, Timisoara, Timis
-        </Text>
-        <TouchableOpacity className="absolute right-6">
-          <Text style={{ color: themeColors.text }} className="font-bold">
+        <Icon.Clock strokeWidth={2} stroke={themeColors.bgColor(1)} />
+        <Text className="font-semi text-sm ml-2">{schedule}</Text>
+      </View>
+      <View
+        style={{ flexDirection: "row", alignItems: "center" }}
+        className="ml-8 mb-6"
+      >
+        <TouchableOpacity
+          style={{ backgroundColor: themeColors.bgColor(1) }}
+          className="py-1 px-8 rounded-lg"
+        >
+          <Text className="text-white text-lg">Reserve</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          className="ml-4"
+          onPress={() => openGoogleMaps(location.address)}
+        >
+          <Text
+            style={{ color: themeColors.text }}
+            className="text-base font-bold"
+          >
             Open on Maps
           </Text>
         </TouchableOpacity>

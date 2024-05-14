@@ -9,14 +9,13 @@ import ContactCard from "../components/contactCard";
 import MenuHome from "../components/menuHome";
 
 export default function RestaurantScreen() {
-  const { params } = useRoute();
-  let item = params;
-  const navigation = useNavigation();
+  const { params: item } = useRoute();
+
   return (
     <View>
       <ScrollView>
         <View className="relative">
-          <Image className="w-full h-72" source={item.image} />
+          <Image className="w-full h-72" source={{ uri: item.url }} />
           <BackButtonWhite />
         </View>
         <View
@@ -29,34 +28,36 @@ export default function RestaurantScreen() {
               <View className="px-3 pb-4 space-y-2">
                 <View className="flex-row items-center space-x-1">
                   <Image
-                    source={require("../assets/images/fullStar.png")}
+                    source={require("../assets/images/starRed.png")}
                     className="h-4 w-4"
                   />
                   <Text className="text-xs">
-                    <Text className="text-gray">{item.stars}</Text>
-                    <Text className="text-gray-700">
-                      {" "}
-                      ({item.reviews} reviews)
+                    <Text className="text-gray font-semibold">
+                      {item.statistics.rating}
                     </Text>{" "}
                     ·{" "}
-                    <Text className="font-semibold text-gray-700">
+                    <Text className="font-semibold text-gray">
+                      {item.statistics.number_of_reviews} reviews
+                    </Text>{" "}
+                    ·{" "}
+                    <Text className="font-semibold text-gray">
                       {item.category}
                     </Text>
                   </Text>
                 </View>
-                <View className="flex-row items-center space-x-1">
-                  <Icon.MapPin color="gray" width={15} height={15} />
-                  <Text className="text-gray-700 text-xs">
-                    {" "}
-                    Nearby · {item.address}
-                  </Text>
+                <View>
+                  <Text className="text-slate-900">According to Google</Text>
                 </View>
               </View>
             </View>
           </View>
         </View>
-        <ContactCard />
-        <MenuHome />
+        <ContactCard
+          location={item.location}
+          phone_number={item.phone_number}
+          schedule={item.schedule}
+        />
+        <MenuHome menus={item.menus} restaurantName={item.name} />
       </ScrollView>
     </View>
   );
