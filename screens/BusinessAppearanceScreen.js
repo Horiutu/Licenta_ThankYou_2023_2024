@@ -24,7 +24,7 @@ export default function BusinessAppearanceScreen() {
           className="font-bold ml-3 text-white"
         >
           {" "}
-          Appearance
+          Notifications
         </Text>
       </View>
     </SafeAreaView>

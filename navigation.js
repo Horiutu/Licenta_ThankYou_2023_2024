@@ -26,6 +26,7 @@ import UserAppearanceScreen from "./screens/UserAppearanceScreen";
 import UserReservationsScreen from "./screens/UserReservationsScreen";
 import UserFinanceScreen from "./screens/UserFinanceScreen";
 import UserSettingsScreen from "./screens/UserSettingsScreen";
+import ReservationPageScreen from "./screens/ReservationPageScreen";
 
 export default function Navigation() {
   return (
@@ -39,6 +40,7 @@ export default function Navigation() {
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Restaurant" component={RestaurantScreen} />
+
         <Stack.Screen name="UserProfile" component={UserProfileScreen} />
         <Stack.Screen name="UserAppearance" component={UserAppearanceScreen} />
         <Stack.Screen
@@ -50,6 +52,10 @@ export default function Navigation() {
 
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen
+          name="ReservationPage"
+          component={ReservationPageScreen}
+        />
         <Stack.Screen name="AllSet" component={AllSetScreen} />
         <Stack.Screen
           name="LogInBusinessScreen"

@@ -27,7 +27,9 @@ export default function RestaurantCard({ item }) {
 
   return (
     <TouchableWithoutFeedback
-      onPress={() => navigation.navigate("Restaurant", { ...item, url })}
+      onPress={() =>
+        navigation.navigate("SessionRestaurantScreen", { ...item, url })
+      }
     >
       <View className="mr-6 bg-white rounded-3xl shadow-lg">
         <Image className="h-36 w-64 rounded-t-3xl" source={{ uri: url }} />

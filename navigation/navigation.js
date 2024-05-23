@@ -1,7 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
-const Stack = createNativeStackNavigator();
 import React from "react";
 import HomeScreen from "../screens/HomeScreen";
 import RestaurantScreen from "../screens/RestaurantScreen";
@@ -27,18 +25,38 @@ import withAuthRedirect from "./withAuthRedirect";
 import QRCodeScreen from "../screens/QRCodeScreen";
 import LeaderboardRestaurantsAllScreen from "../screens/LeaderboardRestaurantsAllScreen";
 import PopularRestaurantsAllScreen from "../screens/PopularRestaurantsAllScreen";
+import ReservationPageScreen from "../screens/ReservationPageScreen";
+import SessionRestaurantMenuScreen from "../screens/SessionRestaurantMenuScreen";
+import OrderDetailsScreen from "../screens/OrderDetailsScreen";
+
+const Stack = createNativeStackNavigator();
+
+const config = {
+  screens: {
+    Home: "home",
+  },
+};
+
+const linking = {
+  prefixes: ["thankyou://", "https://thankyou.com"],
+  config,
+};
 
 export default function Navigation() {
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linking}>
       <Stack.Navigator
         initialRouteName="Welcome"
         screenOptions={{
           headerShown: false,
         }}
       >
+        <Stack.Screen
+          name="SessionRestaurantScreen"
+          component={SessionRestaurantMenuScreen}
+        />
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Home" component={withAuthRedirect(HomeScreen)} />
         <Stack.Screen name="QR" component={QRCodeScreen} />
         <Stack.Screen name="Restaurant" component={RestaurantScreen} />
         <Stack.Screen
@@ -49,6 +67,10 @@ export default function Navigation() {
         <Stack.Screen
           name="UserReservations"
           component={UserReservationsScreen}
+        />
+        <Stack.Screen
+          name="ReservationPage"
+          component={ReservationPageScreen}
         />
         <Stack.Screen name="UserFinance" component={UserFinanceScreen} />
         <Stack.Screen name="UserSettings" component={UserSettingsScreen} />
@@ -90,6 +112,7 @@ export default function Navigation() {
           name="BusinessSettings"
           component={BusinessSettingsScreen}
         />
+        <Stack.Screen name="OrderDetails" component={OrderDetailsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

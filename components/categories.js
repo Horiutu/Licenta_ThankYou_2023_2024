@@ -2,6 +2,7 @@ import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import React from "react";
 import { useState } from "react";
 import { categories } from "../constants/index";
+import { themeColors } from "../theme";
 
 export default function Categories() {
   const [activeCategory, setActiveCategory] = useState(null);
@@ -26,10 +27,13 @@ export default function Categories() {
           return (
             <View key={index} className="flex justify-center items-center mr-2">
               <TouchableOpacity
-                className="p-2 rounded-full shadow bg-gray-200 "
+                className="p-2 rounded-full shadow bg-white "
+                style={{ borderWidth: 2, borderColor: themeColors.bgColor(1) }}
                 onPress={() => setActiveCategory(category.id)}
               >
-                <Text className="px-2">{category.name}</Text>
+                <Text style={{ color: themeColors.text }} className="px-2">
+                  {category.name}
+                </Text>
               </TouchableOpacity>
             </View>
           );

@@ -14,9 +14,20 @@ import ReservationCard from "../components/reservationCard";
 import { logout } from "../services/userSignIn";
 import withAuthRedirect from "../navigation/withAuthRedirect";
 import BackButtonBlack from "../components/backButtonBlack";
+import { useState, useEffect } from "react";
+import { FIREBASE_AUTH } from "../services/config";
 
 export default function UserProfileScreen() {
   const navigation = useNavigation();
+
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    const user = FIREBASE_AUTH.currentUser;
+    if (user) {
+      setUserName(user.displayName);
+    }
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -40,8 +51,7 @@ export default function UserProfileScreen() {
           {" "}
           Your
         </Text>
-        <Text style={{ fontSize: 44 }} className="font-thin text-black">
-          {" "}
+        <Text style={{ fontSize: 44 }} className="font-thin text-black ml-3">
           Profile
         </Text>
       </View>
@@ -55,10 +65,10 @@ export default function UserProfileScreen() {
             style={{ color: themeColors.text }}
             className="font-bold ml-6 text-3xl"
           >
-            Appearance
+            Notifications
           </Text>
         </TouchableOpacity>
-        <Icon.Droplet
+        <Icon.Bell
           className="ml-2 mb-2"
           strokeWidth={3}
           stroke={themeColors.bgColor(1)}
@@ -78,7 +88,7 @@ export default function UserProfileScreen() {
           </Text>
         </TouchableOpacity>
         <Icon.Clock
-          className="ml-3 mb-2"
+          className="ml-2 mb-2"
           strokeWidth={3}
           stroke={themeColors.bgColor(1)}
         />
@@ -97,7 +107,7 @@ export default function UserProfileScreen() {
           </Text>
         </TouchableOpacity>
         <Icon.DollarSign
-          className="ml-3 mb-3"
+          className="ml-2 mb-3"
           strokeWidth={3}
           stroke={themeColors.bgColor(1)}
         />

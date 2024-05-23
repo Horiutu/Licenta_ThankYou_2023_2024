@@ -63,14 +63,15 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
       </View>
-      <ScrollView
+      <View
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingBottom: 20,
         }}
+        style={{ marginBottom: 10 }}
       >
         <Categories />
-      </ScrollView>
+      </View>
       <View className="mt-1">
         {countRestaurants === 0 ? (
           <View className="items-center">
@@ -91,7 +92,7 @@ export default function HomeScreen() {
           className="bg-red-500 items-center py-2 rounded-lg mx-4 rounded-b-3xl"
           onPress={() => navigation.navigate("QR")}
         >
-          <Text className="font-semi text-white text-2xl">Scan QR Code</Text>
+          <Text className="font-semi text-white text-xl">Scan QR Code</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

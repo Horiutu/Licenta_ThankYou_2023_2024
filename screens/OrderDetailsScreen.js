@@ -1,9 +1,8 @@
 import {
   View,
   Text,
-  TextInput,
-  ScrollView,
   SafeAreaView,
+  ScrollView,
   TouchableOpacity,
 } from "react-native";
 import React from "react";
@@ -11,36 +10,31 @@ import * as Icon from "react-native-feather";
 import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
 import BackButtonBlack from "../components/backButtonBlack";
-import withAuthRedirect from "../navigation/withAuthRedirect";
-import NotificationCard from "../components/notificationCard";
+import BackButtonWhite from "../components/backButtonWhite";
+import OrderBusinessCard from "../components/ordersBusiness";
+import BackButtonRed from "../components/backButtonRed";
+import StatusOrder from "../components/setOrderStatus";
 
-export default function UserAppearanceScreen() {
+export default function OrderDetailsScreen() {
   const navigation = useNavigation();
   return (
-    <SafeAreaView className="bg-white flex-1 justify-center">
-      <BackButtonBlack />
-
+    <SafeAreaView className="bg-stone-900 flex-1">
+      <BackButtonRed />
       <View
         style={{ flexDirection: "row", alignItems: "center" }}
-        className="mt-14"
+        className="mt-12 mb-4"
       >
         <Text
           style={{ fontSize: 44, color: themeColors.text }}
           className="font-bold ml-3 text-white"
         >
           {" "}
-          Notifications
+          Order #1002
         </Text>
-        <Icon.Bell
-          className="ml-2"
-          height={40}
-          width={30}
-          strokeWidth={3}
-          stroke={themeColors.bgColor(1)}
-        />
       </View>
-      <ScrollView className="mt-4">
-        <NotificationCard />
+      <StatusOrder />
+      <ScrollView className="">
+        <Text></Text>
       </ScrollView>
     </SafeAreaView>
   );

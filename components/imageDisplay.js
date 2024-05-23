@@ -7,7 +7,7 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { ref, getDownloadURL } from "firebase/storage";
-import storageBucket, { FIREBASE_ST } from "../services/config.js";
+import { FIREBASE_ST } from "../services/config.js";
 
 function ImageDisplay({ imageName }) {
   const [imageUrl, setImageUrl] = useState("");
@@ -27,11 +27,11 @@ function ImageDisplay({ imageName }) {
   }, [imageName]);
 
   return (
-    <View>
+    <View className="items-center">
       {imageUrl ? (
         <Image source={imageUrl} className="h-40 w-40" />
       ) : (
-        <Text>Loading...</Text>
+        <Text className="mt-4">Loading...</Text>
       )}
     </View>
   );

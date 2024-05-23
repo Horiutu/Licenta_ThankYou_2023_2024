@@ -13,6 +13,7 @@ import * as Icon from "react-native-feather";
 import { TouchableOpacity } from "react-native";
 
 export default function ContactCard({ location, phone_number, schedule }) {
+  const navigation = useNavigation();
   const openGoogleMaps = (searchQuery) => {
     const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
       searchQuery
@@ -71,11 +72,13 @@ export default function ContactCard({ location, phone_number, schedule }) {
         className="ml-8 mb-6"
       >
         <TouchableOpacity
+          onPress={() => navigation.navigate("ReservationPage")}
           style={{ backgroundColor: themeColors.bgColor(1) }}
           className="py-1 px-8 rounded-lg"
         >
           <Text className="text-white text-lg">Reserve</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           className="ml-4"
           onPress={() => openGoogleMaps(location.address)}

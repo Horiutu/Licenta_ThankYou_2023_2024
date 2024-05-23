@@ -21,54 +21,6 @@ export default function LogInBusinessScreen() {
   const [loading, setLoading] = useState(false);
   const [isUserLogged, setIsUserLogged] = useState(false);
 
-  useEffect(() => {
-    isUserAuthenticated()
-      .then((isLoggedIn) => setIsUserLogged(isLoggedIn))
-      .catch((err) => {
-        console.error(err);
-        throw err;
-      });
-  }, [isUserLogged, loading]);
-
-  useEffect(() => {
-    isUserAuthenticated()
-      .then((isLoggedIn) => setIsUserLogged(isLoggedIn))
-      .catch((err) => {
-        console.error(err);
-        throw err;
-      });
-  }, [isUserLogged, loading]);
-
-  const handleLogin = async () => {
-    try {
-      const user = await login(email, businessCode, password);
-      if (user) {
-        if (!user.emailVerified) {
-          alert(
-            "Please verify the account by clicking on the link received on email."
-          );
-          await emailVerification();
-          await logout();
-        }
-      }
-      setLoading(!loading);
-    } catch (err) {
-      setLoading(false);
-      if (
-        err.code === "auth/user-not-found" &&
-        err.code === "auth/wrong-password"
-      ) {
-        alert("Invalid email or password. Please try again.");
-      } else if (err.code === "auth/too-many-requests") {
-        alert(
-          "Too many unsuccessful request login attempts. Please try again later!"
-        );
-      } else {
-        alert("Sign-in error: " + err.message);
-      }
-    }
-  };
-
   return (
     <SafeAreaView className="bg-stone-900 flex-1 justify-center">
       <BackButtonWhite />
@@ -149,7 +101,7 @@ export default function LogInBusinessScreen() {
       <View className="absolute bottom-48 w-full z-50">
         <TouchableOpacity
           style={{ backgroundColor: themeColors.bgColor(1) }}
-          onPress={handleLogin}
+          onPress={() => navigation.navigate("BusinessHome")}
           className="flex-row justify-center items-center mx-7 rounded-r-lg rounded-l-lg py-3"
         >
           <View>

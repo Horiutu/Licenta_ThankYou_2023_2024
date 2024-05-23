@@ -33,20 +33,6 @@ export default function BusinessMenuScreen() {
 
       <ScrollView className="top-36">
         <FoodMenu />
-        <FoodMenu />
-        <FoodMenu />
-        <FoodMenu />
-        <FoodMenu />
-        <FoodMenu />
-        <FoodMenu />
-        <FoodMenu />
-        <FoodMenu />
-        <FoodMenu />
-        <FoodMenu />
-        <FoodMenu />
-        <FoodMenu />
-        <FoodMenu />
-        <FoodMenu />
       </ScrollView>
     </SafeAreaView>
   );

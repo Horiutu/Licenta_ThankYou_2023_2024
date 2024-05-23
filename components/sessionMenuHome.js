@@ -12,7 +12,7 @@ import * as Icon from "react-native-feather";
 import { TouchableOpacity } from "react-native";
 import ImageDisplay from "./imageDisplay";
 
-export default function MenuHome({ menus, restaurantName }) {
+export default function SessionMenuHome({ menus, restaurantName }) {
   const placeholderText = `Search in ${restaurantName}`;
   return (
     <View
@@ -50,6 +50,12 @@ export default function MenuHome({ menus, restaurantName }) {
               <Text className="font-bold text-lg ml-8 mt-4 mb-2">
                 {itemData.price} lei
               </Text>
+              <TouchableOpacity
+                style={{ backgroundColor: themeColors.bgColor(1) }}
+                className="py-1 mx-8 items-center mb-4"
+              >
+                <Icon.Plus strokeWidth={2} stroke="white" />
+              </TouchableOpacity>
             </View>
           );
         });

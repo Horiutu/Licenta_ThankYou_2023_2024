@@ -1,14 +1,10 @@
-import {
-  View,
-  Text,
-
-  SafeAreaView,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import React from "react";
 import * as Icon from "react-native-feather";
 import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
+import BackButtonBlack from "../components/backButtonBlack";
+import BackButtonWhite from "../components/backButtonWhite";
 
 export default function BusinessHomeScreen() {
   const navigation = useNavigation();
@@ -38,10 +34,10 @@ export default function BusinessHomeScreen() {
               style={{ color: themeColors.text }}
               className="font-bold ml-6 text-3xl"
             >
-              Appearance
+              Notifications
             </Text>
           </TouchableOpacity>
-          <Icon.Droplet
+          <Icon.Bell
             className="ml-2 mb-2"
             strokeWidth={3}
             stroke={themeColors.bgColor(1)}
