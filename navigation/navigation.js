@@ -1,6 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import HomeScreen from "../screens/HomeScreen";
 import RestaurantScreen from "../screens/RestaurantScreen";
 import LoginScreen from "../screens/LoginScreen";
@@ -25,24 +25,56 @@ import withAuthRedirect from "./withAuthRedirect";
 import QRCodeScreen from "../screens/QRCodeScreen";
 import LeaderboardRestaurantsAllScreen from "../screens/LeaderboardRestaurantsAllScreen";
 import PopularRestaurantsAllScreen from "../screens/PopularRestaurantsAllScreen";
+import * as Linking from 'expo-linking';
+import LocalRestaurantScreen from "../screens/LocalRestaurantScreen";
+import CartScreen from "../screens/CartScreen";
 import ReservationPageScreen from "../screens/ReservationPageScreen";
 import SessionRestaurantMenuScreen from "../screens/SessionRestaurantMenuScreen";
 import OrderDetailsScreen from "../screens/OrderDetailsScreen";
 
+const prefix = Linking.createURL('/');
 const Stack = createNativeStackNavigator();
 
-const config = {
-  screens: {
-    Home: "home",
-  },
-};
-
-const linking = {
-  prefixes: ["thankyou://", "https://thankyou.com"],
-  config,
-};
-
 export default function Navigation() {
+  const [data, setData] = useState(null);
+
+  const linking = {
+    prefixes: [prefix],
+    config: {
+      screens: {
+        Welcome: "welcome",
+        LocalRestaurant: "restaurant/:restaurantId"
+      }
+    }
+  };
+
+  const handleDeepLink = (event) => {
+    let data = Linking.parse(event.url);
+    setData(data);
+  };
+
+  useEffect(() => {
+    const getInitialURL = async () => {
+      const initialURL = await Linking.getInitialURL();
+      if (initialURL) {
+        setData(Linking.parse(initialURL));
+      }
+    };
+
+    Linking.addEventListener('url', handleDeepLink);
+
+    if (!data) {
+      getInitialURL();
+    }
+
+    return () => {
+      if (Linking.removeEventListener) {
+        Linking.removeEventListener('url');
+      }
+    };
+  }, []);
+
+
   return (
     <NavigationContainer linking={linking}>
       <Stack.Navigator
@@ -59,6 +91,8 @@ export default function Navigation() {
         <Stack.Screen name="Home" component={withAuthRedirect(HomeScreen)} />
         <Stack.Screen name="QR" component={QRCodeScreen} />
         <Stack.Screen name="Restaurant" component={RestaurantScreen} />
+        <Stack.Screen name="LocalRestaurant" component={LocalRestaurantScreen} />
+        <Stack.Screen name="Cart" component={CartScreen} />
         <Stack.Screen
           name="UserProfile"
           component={withAuthRedirect(UserProfileScreen)}

@@ -1,10 +1,21 @@
-import React from "react";
 import { View, Text, TextInput, Image } from "react-native";
+import React from "react";
 import { themeColors } from "../theme";
 import * as Icon from "react-native-feather";
+import { TouchableOpacity } from "react-native";
+import { useDispatch } from "react-redux";
+import { addItemToCart } from "../redux/cartSlice";
+import { useNavigation } from "@react-navigation/native";
 
-export default function MenuHome({ menus, restaurant }) {
+export default function Menu({ menus, restaurant }) {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
   const placeholderText = `Search in ${restaurant.name}`;
+
+  const handleAddToCart = (product) => {
+    dispatch(addItemToCart({ product, restaurant }));
+  };
 
   return (
     <View
@@ -24,6 +35,7 @@ export default function MenuHome({ menus, restaurant }) {
 
       {Object.keys(menus).map((key) => {
         const { name, items } = menus[key];
+
         const menuItemData = Object.keys(items).map((itemKey) => {
           const itemData = items[itemKey];
           return (
@@ -34,7 +46,7 @@ export default function MenuHome({ menus, restaurant }) {
               >
                 {itemData.name}
               </Text>
-              <Text className="font-bold text-m mx-8 mt-2">
+              <Text className="font-bold text-sm mx-8 mt-2">
                 {itemData.description}
               </Text>
               <Image
@@ -44,6 +56,13 @@ export default function MenuHome({ menus, restaurant }) {
               <Text className="font-bold text-xl ml-8 mt-4 mb-4">
                 {itemData.price} lei
               </Text>
+              <TouchableOpacity
+                onPress={() => handleAddToCart({ ...itemData, id: itemKey })}
+                style={{ backgroundColor: themeColors.bgColor(1) }}
+                className="py-1 mx-8 items-center mb-8 rounded-lg"
+              >
+                <Icon.Plus strokeWidth={2} stroke="white" />
+              </TouchableOpacity>
             </View>
           );
         });

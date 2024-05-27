@@ -1,10 +1,10 @@
 import {
-  View,
+  SafeAreaView,
+  ScrollView,
   Text,
   TextInput,
-  ScrollView,
-  SafeAreaView,
   TouchableOpacity,
+  View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
@@ -12,15 +12,35 @@ import * as Icon from "react-native-feather";
 import { themeColors } from "../theme";
 import Categories from "../components/categories";
 import FeaturedRow from "../components/featuredRow";
-import { featured } from "../constants/index";
 import { useNavigation } from "@react-navigation/native";
 import LeaderBoardMostVisited from "../components/leaderboardVisited";
-import { getDatabase, ref, child, get } from "firebase/database";
+import { child, get, getDatabase, ref } from "firebase/database";
+import {
+  getDownloadURL,
+  getStorage,
+  ref as refStorage,
+} from "firebase/storage";
 
 export default function HomeScreen() {
   const navigation = useNavigation();
   const [restaurants, setRestaurants] = useState([]);
   const countRestaurants = Object.keys(restaurants).length;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const snapshot = await firestore()
+        .collection("restaurants")
+        .orderBy("rating", "desc")
+        .get();
+      const fetchedData = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setRestaurants(fetchedData);
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const dbRef = ref(getDatabase());
@@ -30,6 +50,43 @@ export default function HomeScreen() {
         if (snapshot.exists()) {
           const restaurantsArr = [];
           const data = snapshot.val();
+          const storage = getStorage();
+
+          try {
+            Object.keys(data).forEach(async (restaurantId) => {
+              const restaurantData = data[restaurantId];
+              const { menus } = restaurantData;
+
+              for (const menuKey of Object.keys(menus)) {
+                const menu = menus[menuKey];
+
+                await Promise.all(
+                  Object.keys(menu?.items).map(async (key) => {
+                    const item = menu.items[key];
+                    item.imageUrl = await getDownloadURL(
+                      refStorage(storage, item.image)
+                    );
+                  })
+                );
+              }
+
+              const imageUrl = restaurantData.image;
+              const storageRef = refStorage(storage, imageUrl);
+
+              getDownloadURL(storageRef).then((url) => {
+                const xhr = new XMLHttpRequest();
+                xhr.responseType = "blob";
+                xhr.onload = function (event) {
+                  const blob = xhr.response;
+                };
+                xhr.open("GET", url);
+                xhr.send();
+              });
+            });
+          } catch (error) {
+            console.error(error);
+          }
+
           Object.keys(data).forEach((key) => restaurantsArr.push(data[key]));
           setRestaurants(restaurantsArr);
         } else {

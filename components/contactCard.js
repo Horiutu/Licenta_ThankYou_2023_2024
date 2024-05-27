@@ -1,16 +1,14 @@
 import {
   View,
-  Image,
   Text,
-  TouchableWithoutFeedback,
   Linking,
   Alert,
 } from "react-native";
 import React from "react";
-import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
 import * as Icon from "react-native-feather";
 import { TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ContactCard({ location, phone_number, schedule }) {
   const navigation = useNavigation();

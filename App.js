@@ -1,8 +1,12 @@
 import "react-native-gesture-handler";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
 import Navigation from "./navigation/navigation";
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 
 export default function App() {
-  return <Navigation />;
+  return (
+    <Provider store={store}>
+      <Navigation />
+    </Provider>
+  );
 }

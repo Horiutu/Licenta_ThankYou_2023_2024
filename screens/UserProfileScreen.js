@@ -15,20 +15,21 @@ import { logout } from "../services/userSignIn";
 import withAuthRedirect from "../navigation/withAuthRedirect";
 import BackButtonBlack from "../components/backButtonBlack";
 import { useState, useEffect } from "react";
-import { FIREBASE_AUTH } from "../services/config";
+import { FIREBASE_AUTH, FIRESTORE_DB } from "../services/config";
+import { getFirestore } from "firebase/firestore";
 
 export default function UserProfileScreen() {
   const navigation = useNavigation();
 
-  const [userName, setUserName] = useState("");
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const user = FIREBASE_AUTH.currentUser;
-    if (user) {
-      setUserName(user.displayName);
-    }
-  }, []);
+    const unsubscribe = FIREBASE_AUTH().onAuthStateChanged((currentUser) => {
+      setUser(currentUser);
+    });
 
+    return unsubscribe; // Clean up the subscription on unmount
+  }, []);
   const handleLogout = async () => {
     try {
       await logout();
@@ -47,12 +48,12 @@ export default function UserProfileScreen() {
         style={{ flexDirection: "row", alignItems: "center" }}
         className="mt-14 pb-8"
       >
-        <Text style={{ fontSize: 44 }} className="font-bold ml-3 text-black">
+        <Text style={{ fontSize: 44 }} className="font-bold ml-4 text-black">
           {" "}
-          Your
+          Hi,
         </Text>
         <Text style={{ fontSize: 44 }} className="font-thin text-black ml-3">
-          Profile
+          {user.displayNam || "User"}
         </Text>
       </View>
 

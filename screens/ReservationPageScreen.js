@@ -15,13 +15,14 @@ import BackButtonBlack from "../components/backButtonBlack";
 import ReserveATable from "../components/reserveATable";
 import CancelButton from "../components/cancelButton";
 import BackButtonWhite from "../components/backButtonWhite";
+import BackButtonRed from "../components/backButtonRed";
 
 export default function ReservationPageScreen() {
   const navigation = useNavigation();
 
   return (
     <SafeAreaView className="bg-white flex-1">
-      <BackButtonWhite />
+      <BackButtonBlack />
 
       <View
         style={{ flexDirection: "row", alignItems: "center" }}
