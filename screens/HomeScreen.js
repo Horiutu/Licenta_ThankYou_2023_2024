@@ -27,22 +27,6 @@ export default function HomeScreen() {
   const countRestaurants = Object.keys(restaurants).length;
 
   useEffect(() => {
-    const fetchData = async () => {
-      const snapshot = await firestore()
-        .collection("restaurants")
-        .orderBy("rating", "desc")
-        .get();
-      const fetchedData = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setRestaurants(fetchedData);
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
     const dbRef = ref(getDatabase());
 
     get(child(dbRef, `restaurants`))

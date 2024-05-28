@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as Icon from "react-native-feather";
 
 import {
@@ -14,12 +14,42 @@ import { useSelector, useDispatch } from "react-redux";
 import { removeItemFromCart } from "../redux/cartSlice";
 import { themeColors } from "../theme";
 import BackButtonBlack from "../components/backButtonBlack";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function CartScreen() {
   const cartItems = useSelector((state) => state.cart.items);
   const restaurantId = useSelector((state) => state.cart.restaurantId);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
   const dispatch = useDispatch();
+
+  console.log("Cart");
+
+  useEffect(() => {
+    console.log("useEffect Cart");
+    (async () => {
+      const userId = await AsyncStorage.getItem("user");
+      const userEmail = await AsyncStorage.getItem("email");
+      
+      Object.keys(data).forEach(async (restaurantId) => {
+        const restaurantData = data[restaurantId];
+        const { menus } = restaurantData;
+
+        for (const menuKey of Object.keys(menus)) {
+          const menu = menus[menuKey];
+
+          await Promise.all(
+            Object.keys(menu?.items).map(async (key) => {
+              const item = menu.items[key];
+            })
+          );
+        }
+
+        
+      });
+      )
+      console.log(user);
+    })();
+  });
 
   const handleRemoveFromCart = (id) => {
     dispatch(removeItemFromCart(id));

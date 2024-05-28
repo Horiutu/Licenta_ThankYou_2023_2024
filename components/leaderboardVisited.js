@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { themeColors } from "../theme";
 import MostVisitedRestaurantCard from "./mostVisitedRestaurantCard";
 import { useNavigation } from "@react-navigation/native";
-import { FIRESTORE_DB } from "../services/config";
 
 export default function LeaderBoardMostVisited({ restaurants }) {
   const navigation = useNavigation();

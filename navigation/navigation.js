@@ -25,14 +25,14 @@ import withAuthRedirect from "./withAuthRedirect";
 import QRCodeScreen from "../screens/QRCodeScreen";
 import LeaderboardRestaurantsAllScreen from "../screens/LeaderboardRestaurantsAllScreen";
 import PopularRestaurantsAllScreen from "../screens/PopularRestaurantsAllScreen";
-import * as Linking from 'expo-linking';
+import * as Linking from "expo-linking";
 import LocalRestaurantScreen from "../screens/LocalRestaurantScreen";
 import CartScreen from "../screens/CartScreen";
 import ReservationPageScreen from "../screens/ReservationPageScreen";
 import SessionRestaurantMenuScreen from "../screens/SessionRestaurantMenuScreen";
 import OrderDetailsScreen from "../screens/OrderDetailsScreen";
 
-const prefix = Linking.createURL('/');
+const prefix = Linking.createURL("/");
 const Stack = createNativeStackNavigator();
 
 export default function Navigation() {
@@ -43,9 +43,9 @@ export default function Navigation() {
     config: {
       screens: {
         Welcome: "welcome",
-        LocalRestaurant: "restaurant/:restaurantId"
-      }
-    }
+        LocalRestaurant: "restaurant/:restaurantId",
+      },
+    },
   };
 
   const handleDeepLink = (event) => {
@@ -61,7 +61,7 @@ export default function Navigation() {
       }
     };
 
-    Linking.addEventListener('url', handleDeepLink);
+    Linking.addEventListener("url", handleDeepLink);
 
     if (!data) {
       getInitialURL();
@@ -69,11 +69,10 @@ export default function Navigation() {
 
     return () => {
       if (Linking.removeEventListener) {
-        Linking.removeEventListener('url');
+        Linking.removeEventListener("url");
       }
     };
   }, []);
-
 
   return (
     <NavigationContainer linking={linking}>
@@ -91,8 +90,11 @@ export default function Navigation() {
         <Stack.Screen name="Home" component={withAuthRedirect(HomeScreen)} />
         <Stack.Screen name="QR" component={QRCodeScreen} />
         <Stack.Screen name="Restaurant" component={RestaurantScreen} />
-        <Stack.Screen name="LocalRestaurant" component={LocalRestaurantScreen} />
-        <Stack.Screen name="Cart" component={CartScreen} />
+        <Stack.Screen
+          name="LocalRestaurant"
+          component={LocalRestaurantScreen}
+        />
+        <Stack.Screen name="Cart" component={withAuthRedirect(CartScreen)} />
         <Stack.Screen
           name="UserProfile"
           component={withAuthRedirect(UserProfileScreen)}

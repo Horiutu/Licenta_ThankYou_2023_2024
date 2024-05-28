@@ -3,7 +3,7 @@ import React from "react";
 import { themeColors } from "../theme";
 import { useNavigation } from "@react-navigation/native";
 
-export default function MostVisitedRestaurantCard(item) {
+export default function MostVisitedRestaurantCard({ item }) {
   const navigation = useNavigation();
   return (
     <TouchableWithoutFeedback onPress={() => navigation.navigate("Restaurant")}>
@@ -14,9 +14,9 @@ export default function MostVisitedRestaurantCard(item) {
         >
           #1
         </Text>
-        <Text className="font-bold text-xl ml-3">{restaurant.name}</Text>
+        <Text className="font-bold text-xl ml-3">{item.name}</Text>
         <Text className="font-bold text-xl ml-16">
-          {restaurant.statistics.number_of_reviews}
+          {item.statistics.number_of_reviews}
         </Text>
         <Text className="ml-1 mt-2">visits</Text>
       </View>
