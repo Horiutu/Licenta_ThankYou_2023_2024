@@ -12,24 +12,16 @@ import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
 import ReservationCard from "../components/reservationCard";
 import { logout } from "../services/userSignIn";
-import withAuthRedirect from "../navigation/withAuthRedirect";
 import BackButtonBlack from "../components/backButtonBlack";
 import { useState, useEffect } from "react";
-import { FIREBASE_AUTH, FIRESTORE_DB } from "../services/config";
-import { getFirestore } from "firebase/firestore";
+import { FIREBASE_AUTH } from "../services/config";
+import Spinner from "../components/spinner";
+import { useAuth } from "../hooks/useAuth";
 
 export default function UserProfileScreen() {
   const navigation = useNavigation();
+  const auth = useAuth();
 
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const unsubscribe = FIREBASE_AUTH().onAuthStateChanged((currentUser) => {
-      setUser(currentUser);
-    });
-
-    return unsubscribe; // Clean up the subscription on unmount
-  }, []);
   const handleLogout = async () => {
     try {
       await logout();
@@ -39,6 +31,10 @@ export default function UserProfileScreen() {
       throw err;
     }
   };
+
+  if (!auth) {
+    return <Spinner />;
+  }
 
   return (
     <SafeAreaView className="bg-white flex-1">
@@ -53,7 +49,7 @@ export default function UserProfileScreen() {
           Hi,
         </Text>
         <Text style={{ fontSize: 44 }} className="font-thin text-black ml-3">
-          {user.displayNam || "User"}
+          {auth.displayName || "User"}
         </Text>
       </View>
 

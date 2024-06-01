@@ -1,18 +1,14 @@
 import {
   View,
   Text,
-  TextInput,
   ScrollView,
   SafeAreaView,
-  TouchableOpacity,
 } from "react-native";
 import React from "react";
-import * as Icon from "react-native-feather";
 import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
 import BackButtonBlack from "../components/backButtonBlack";
 import CreditCard from "../components/creditcards";
-import withAuthRedirect from "../navigation/withAuthRedirect";
 import PaymentHistoryCard from "../components/paymentHistoryCard";
 
 export default function UserFinanceScreen() {

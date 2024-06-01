@@ -21,7 +21,6 @@ import UserAppearanceScreen from "../screens/UserAppearanceScreen";
 import UserReservationsScreen from "../screens/UserReservationsScreen";
 import UserFinanceScreen from "../screens/UserFinanceScreen";
 import UserSettingsScreen from "../screens/UserSettingsScreen";
-import withAuthRedirect from "./withAuthRedirect";
 import QRCodeScreen from "../screens/QRCodeScreen";
 import LeaderboardRestaurantsAllScreen from "../screens/LeaderboardRestaurantsAllScreen";
 import PopularRestaurantsAllScreen from "../screens/PopularRestaurantsAllScreen";
@@ -31,12 +30,14 @@ import CartScreen from "../screens/CartScreen";
 import ReservationPageScreen from "../screens/ReservationPageScreen";
 import SessionRestaurantMenuScreen from "../screens/SessionRestaurantMenuScreen";
 import OrderDetailsScreen from "../screens/OrderDetailsScreen";
+import { useAuth } from "../hooks/useAuth";
 
 const prefix = Linking.createURL("/");
 const Stack = createNativeStackNavigator();
 
 export default function Navigation() {
   const [data, setData] = useState(null);
+  const auth = useAuth();
 
   const linking = {
     prefixes: [prefix],
@@ -82,73 +83,83 @@ export default function Navigation() {
           headerShown: false,
         }}
       >
-        <Stack.Screen
-          name="SessionRestaurantScreen"
-          component={SessionRestaurantMenuScreen}
-        />
-        <Stack.Screen name="Welcome" component={WelcomeScreen} />
-        <Stack.Screen name="Home" component={withAuthRedirect(HomeScreen)} />
-        <Stack.Screen name="QR" component={QRCodeScreen} />
-        <Stack.Screen name="Restaurant" component={RestaurantScreen} />
-        <Stack.Screen
-          name="LocalRestaurant"
-          component={LocalRestaurantScreen}
-        />
-        <Stack.Screen name="Cart" component={withAuthRedirect(CartScreen)} />
-        <Stack.Screen
-          name="UserProfile"
-          component={withAuthRedirect(UserProfileScreen)}
-        />
-        <Stack.Screen name="UserAppearance" component={UserAppearanceScreen} />
-        <Stack.Screen
-          name="UserReservations"
-          component={UserReservationsScreen}
-        />
-        <Stack.Screen
-          name="ReservationPage"
-          component={ReservationPageScreen}
-        />
-        <Stack.Screen name="UserFinance" component={UserFinanceScreen} />
-        <Stack.Screen name="UserSettings" component={UserSettingsScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Register" component={RegisterScreen} />
-        <Stack.Screen name="AllSet" component={AllSetScreen} />
-        <Stack.Screen
-          name="LogInBusinessScreen"
-          component={LogInBusinessScreen}
-        />
-        <Stack.Screen name="BusinessHome" component={BusinessHomeScreen} />
-        <Stack.Screen
-          name="BusinessAppearance"
-          component={BusinessAppearanceScreen}
-        />
-        <Stack.Screen
-          name="BusinessDetails"
-          component={BusinessDetailsScreen}
-        />
-        <Stack.Screen name="BusinessMenu" component={BusinessMenuScreen} />
-        <Stack.Screen name="BusinessOrders" component={BusinessOrdersScreen} />
-        <Stack.Screen
-          name="BusinessReservations"
-          component={BusinessReservationsScreen}
-        />
-        <Stack.Screen
-          name="LeaderboardAll"
-          component={LeaderboardRestaurantsAllScreen}
-        />
-        <Stack.Screen
-          name="PopularAll"
-          component={PopularRestaurantsAllScreen}
-        />
-        <Stack.Screen
-          name="BusinessSchedule"
-          component={BusinessScheduleScreen}
-        />
-        <Stack.Screen
-          name="BusinessSettings"
-          component={BusinessSettingsScreen}
-        />
-        <Stack.Screen name="OrderDetails" component={OrderDetailsScreen} />
+        {auth?.currentUser ? (
+          <>
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen
+              name="SessionRestaurantScreen"
+              component={SessionRestaurantMenuScreen}
+            />
+            <Stack.Screen name="QR" component={QRCodeScreen} />
+            <Stack.Screen name="Restaurant" component={RestaurantScreen} />
+            <Stack.Screen
+              name="LocalRestaurant"
+              component={LocalRestaurantScreen}
+            />
+            <Stack.Screen name="Cart" component={CartScreen} />
+            <Stack.Screen name="UserProfile" component={UserProfileScreen} />
+            <Stack.Screen
+              name="UserAppearance"
+              component={UserAppearanceScreen}
+            />
+            <Stack.Screen
+              name="UserReservations"
+              component={UserReservationsScreen}
+            />
+            <Stack.Screen
+              name="ReservationPage"
+              component={ReservationPageScreen}
+            />
+            <Stack.Screen name="UserFinance" component={UserFinanceScreen} />
+            <Stack.Screen name="UserSettings" component={UserSettingsScreen} />
+            <Stack.Screen name="AllSet" component={AllSetScreen} />
+            <Stack.Screen name="BusinessHome" component={BusinessHomeScreen} />
+            <Stack.Screen
+              name="BusinessAppearance"
+              component={BusinessAppearanceScreen}
+            />
+            <Stack.Screen
+              name="BusinessDetails"
+              component={BusinessDetailsScreen}
+            />
+            <Stack.Screen name="BusinessMenu" component={BusinessMenuScreen} />
+            <Stack.Screen
+              name="BusinessOrders"
+              component={BusinessOrdersScreen}
+            />
+            <Stack.Screen
+              name="BusinessReservations"
+              component={BusinessReservationsScreen}
+            />
+            <Stack.Screen
+              name="LeaderboardAll"
+              component={LeaderboardRestaurantsAllScreen}
+            />
+            <Stack.Screen
+              name="PopularAll"
+              component={PopularRestaurantsAllScreen}
+            />
+            <Stack.Screen
+              name="BusinessSchedule"
+              component={BusinessScheduleScreen}
+            />
+            <Stack.Screen
+              name="BusinessSettings"
+              component={BusinessSettingsScreen}
+            />
+            <Stack.Screen name="OrderDetails" component={OrderDetailsScreen} />
+          </>
+        ) : (
+          <>
+            <Stack.Screen name="Welcome" component={WelcomeScreen} />
+            <Stack.Screen name="Register" component={RegisterScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen
+              name="LogInBusinessScreen"
+              component={LogInBusinessScreen}
+            />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );

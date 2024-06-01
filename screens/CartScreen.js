@@ -29,24 +29,6 @@ export default function CartScreen() {
     (async () => {
       const userId = await AsyncStorage.getItem("user");
       const userEmail = await AsyncStorage.getItem("email");
-      
-      Object.keys(data).forEach(async (restaurantId) => {
-        const restaurantData = data[restaurantId];
-        const { menus } = restaurantData;
-
-        for (const menuKey of Object.keys(menus)) {
-          const menu = menus[menuKey];
-
-          await Promise.all(
-            Object.keys(menu?.items).map(async (key) => {
-              const item = menu.items[key];
-            })
-          );
-        }
-
-        
-      });
-      )
       console.log(user);
     })();
   });

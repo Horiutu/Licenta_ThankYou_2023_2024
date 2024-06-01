@@ -1,17 +1,14 @@
 import {
   View,
   Text,
-  TextInput,
   ScrollView,
   SafeAreaView,
-  TouchableOpacity,
 } from "react-native";
 import React from "react";
 import * as Icon from "react-native-feather";
 import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
 import BackButtonBlack from "../components/backButtonBlack";
-import withAuthRedirect from "../navigation/withAuthRedirect";
 import NotificationCard from "../components/notificationCard";
 
 export default function UserAppearanceScreen() {

@@ -1,12 +1,7 @@
-import { View, ScrollView, Image, Text, TouchableOpacity } from "react-native";
+import { View, ScrollView, Image, Text } from "react-native";
 import React from "react";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import * as Icon from "react-native-feather";
+import { useRoute } from "@react-navigation/native";
 import { themeColors } from "../theme";
-import withAuthRedirect from "../navigation/withAuthRedirect";
-import BackButtonWhite from "../components/backButtonWhite";
-import ContactCard from "../components/contactCard";
-import MenuHome from "../components/menuHome";
 import SessionMenuHome from "../components/sessionMenuHome";
 import CancelButton from "../components/cancelButton";
 import CartButton from "../components/cartButton";

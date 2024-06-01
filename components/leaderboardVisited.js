@@ -2,26 +2,37 @@ import { View, Text, TouchableOpacity, FlatList } from "react-native";
 import React from "react";
 import { useState, useEffect } from "react";
 import { themeColors } from "../theme";
+import firestore from "firebase/firestore";
 import MostVisitedRestaurantCard from "./mostVisitedRestaurantCard";
 import { useNavigation } from "@react-navigation/native";
 
-export default function LeaderBoardMostVisited({ restaurants }) {
+export default function LeaderBoardMostVisited() {
   const navigation = useNavigation();
+  const [restaurants, setRestaurants] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchData = async () => {
-      const snapshot = await FIRESTORE_DB()
-        .collection("restaurants")
-        .orderBy("visits", "desc")
-        .get();
-      const fetchedData = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setRestaurants(fetchedData);
+      try {
+        const snapshot = await firestore()
+          .collection("restaurants")
+          .orderBy("number_of_visits", "desc")
+          .get();
+        const fetchedData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setRestaurants(fetchedData);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchData();
   }, []);
+
   return (
     <View className="">
       <View className="flex-row justify-between items-center px-4">
@@ -37,20 +48,13 @@ export default function LeaderBoardMostVisited({ restaurants }) {
           </Text>
         </TouchableOpacity>
       </View>
-      <View
-        vertical
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingVertical: 2,
-        }}
-        className="overflow-visible py-5"
-      >
+      <View className="overflow-visible py-5">
         <FlatList
+          vertical
+          showsHorizontalScrollIndicator={false}
           data={restaurants}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <MostVisitedRestaurantCard item={restaurant} />
-          )}
+          renderItem={({ item }) => <MostVisitedRestaurantCard item={item} />}
         />
       </View>
     </View>

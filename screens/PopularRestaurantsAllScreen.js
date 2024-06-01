@@ -3,11 +3,9 @@ import React from "react";
 import { useRoute } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
-import MostVisitedRestaurantCard from "../components/mostVisitedRestaurantCard";
 import BackButtonBlack from "../components/backButtonBlack";
-import MostPopularRestaurantCard from "../components/mostPopularRestaurantCard";
 
-export default function PopularRestaurantsAllScreeen({
+export default function PopularRestaurantsAllScreen({
   title,
   restaurants,
   description,
