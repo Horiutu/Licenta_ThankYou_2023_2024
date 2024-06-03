@@ -9,11 +9,14 @@ export default function FeaturedRow({ title, restaurants, description }) {
   return (
     <View>
       <View className="flex-row justify-between items-center px-4">
-        <View>
+        <View className="ml-0.5">
           <Text className="font-bold text-lg text-2xl">{title}</Text>
           <Text className="text-gray-500 text-xs">{description}</Text>
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate("PopularAll")}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("PopularAll")}
+          className="mr-0.5"
+        >
           <Text style={{ color: themeColors.text }} className="font-semibold">
             See all
           </Text>

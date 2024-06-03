@@ -9,7 +9,7 @@ export default function PaymentHistoryCard() {
   const navigation = useNavigation();
   return (
     <TouchableWithoutFeedback onPress={() => navigation.navigate("Restaurant")}>
-      <View className="mx-6 my-2 py-4 bg-white rounded-2xl shadow flex-row">
+      <View className="mx-6 my-2 py-4 bg-white rounded-2xl shadow-lg flex-row">
         <Icon.FileText
           className="ml-5 absolute bottom-4"
           strokeWidth={3}

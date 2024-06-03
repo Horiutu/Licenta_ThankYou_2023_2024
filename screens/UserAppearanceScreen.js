@@ -1,9 +1,4 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  SafeAreaView,
-} from "react-native";
+import { View, Text, ScrollView, SafeAreaView } from "react-native";
 import React from "react";
 import * as Icon from "react-native-feather";
 import { useNavigation } from "@react-navigation/native";
@@ -37,6 +32,8 @@ export default function UserAppearanceScreen() {
         />
       </View>
       <ScrollView className="mt-4">
+        <NotificationCard />
+        <NotificationCard />
         <NotificationCard />
       </ScrollView>
     </SafeAreaView>

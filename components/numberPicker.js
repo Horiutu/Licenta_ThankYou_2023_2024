@@ -2,17 +2,21 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { themeColors } from "../theme";
 
-export default function NumberSelector({ text }) {
+export default function NumberSelector({ text, onChange }) {
   const [selectedNumber, setSelectedNumber] = useState(2);
   const textNr = `${text}`;
 
   const handleIncrement = () => {
-    setSelectedNumber(selectedNumber + 1);
+    const newNumber = selectedNumber + 1;
+    setSelectedNumber(newNumber);
+    onChange(newNumber);
   };
 
   const handleDecrement = () => {
     if (selectedNumber > 1) {
-      setSelectedNumber(selectedNumber - 1);
+      const newNumber = selectedNumber - 1;
+      setSelectedNumber(newNumber);
+      onChange(newNumber);
     }
   };
 

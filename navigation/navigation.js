@@ -2,6 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { useState, useEffect } from "react";
 import HomeScreen from "../screens/HomeScreen";
+import AllRestaurantsScreen from "../screens/AllRestaurants";
 import RestaurantScreen from "../screens/RestaurantScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
@@ -31,6 +32,7 @@ import ReservationPageScreen from "../screens/ReservationPageScreen";
 import SessionRestaurantMenuScreen from "../screens/SessionRestaurantMenuScreen";
 import OrderDetailsScreen from "../screens/OrderDetailsScreen";
 import { useAuth } from "../hooks/useAuth";
+import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 
 const prefix = Linking.createURL("/");
 const Stack = createNativeStackNavigator();
@@ -91,6 +93,10 @@ export default function Navigation() {
               component={SessionRestaurantMenuScreen}
             />
             <Stack.Screen name="QR" component={QRCodeScreen} />
+            <Stack.Screen
+              name="AllRestaurants"
+              component={AllRestaurantsScreen}
+            />
             <Stack.Screen name="Restaurant" component={RestaurantScreen} />
             <Stack.Screen
               name="LocalRestaurant"
@@ -158,6 +164,7 @@ export default function Navigation() {
               name="LogInBusinessScreen"
               component={LogInBusinessScreen}
             />
+            <Stack.Screen name="Forgot" component={ForgotPasswordScreen} />
           </>
         )}
       </Stack.Navigator>

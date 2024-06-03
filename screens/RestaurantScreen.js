@@ -53,6 +53,7 @@ export default function RestaurantScreen() {
           location={item.location}
           phone_number={item.phone_number}
           schedule={item.schedule}
+          restaurant={item}
         />
         <MenuHome menus={item.menus} restaurant={item} />
       </ScrollView>

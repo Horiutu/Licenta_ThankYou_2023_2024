@@ -1,16 +1,16 @@
-import {
-  View,
-  Text,
-  Linking,
-  Alert,
-} from "react-native";
+import { View, Text, Linking, Alert } from "react-native";
 import React from "react";
 import { themeColors } from "../theme";
 import * as Icon from "react-native-feather";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-export default function ContactCard({ location, phone_number, schedule }) {
+export default function ContactCard({
+  location,
+  phone_number,
+  schedule,
+  restaurant,
+}) {
   const navigation = useNavigation();
   const openGoogleMaps = (searchQuery) => {
     const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
@@ -70,7 +70,7 @@ export default function ContactCard({ location, phone_number, schedule }) {
         className="ml-8 mb-6"
       >
         <TouchableOpacity
-          onPress={() => navigation.navigate("ReservationPage")}
+          onPress={() => navigation.navigate("ReservationPage", { restaurant })}
           style={{ backgroundColor: themeColors.bgColor(1) }}
           className="py-1 px-8 rounded-lg"
         >

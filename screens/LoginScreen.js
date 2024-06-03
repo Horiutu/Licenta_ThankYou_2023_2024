@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
+  StyleSheet,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -78,7 +79,7 @@ export default function LoginScreen() {
           Log In
         </Text>
 
-        <View className="flex-row ml-4 mr-7 border-neutral-300 p-1 mt-6 border-b-2 pb-2 ">
+        <View className="flex-row ml-4 mr-7 border-neutral-300 p-1 mt-6 border-b-2">
           <Icon.Mail
             className="mr-3"
             width={30}
@@ -86,7 +87,7 @@ export default function LoginScreen() {
             stroke={themeColors.bgColor(1)}
           />
           <TextInput
-            style={{ color: "white" }}
+            style={styles.input}
             placeholderTextColor="white"
             autoCapitalize="none"
             keyboardType="email-address"
@@ -116,7 +117,7 @@ export default function LoginScreen() {
             value={password}
             onChangeText={setPassword}
           />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Forgot")}>
             <Text
               style={{ color: themeColors.text }}
               className="font-semibold mt-2"
@@ -161,3 +162,12 @@ export default function LoginScreen() {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  input: {
+    color: "#fff",
+    height: 30,
+    width: "80%",
+    paddingRight: 10,
+  },
+});

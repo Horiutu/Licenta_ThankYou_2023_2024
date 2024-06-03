@@ -23,6 +23,7 @@ import {
 
 export default function HomeScreen() {
   const navigation = useNavigation();
+  const [allRestaurants, setAllRestaurants] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
   const countRestaurants = Object.keys(restaurants).length;
 
@@ -72,7 +73,12 @@ export default function HomeScreen() {
           }
 
           Object.keys(data).forEach((key) => restaurantsArr.push(data[key]));
-          setRestaurants(restaurantsArr);
+          restaurantsArr.sort(
+            (a, b) => b.statistics.rating - a.statistics.rating
+          );
+          top3 = restaurantsArr.slice(0, 3);
+          setRestaurants(top3);
+          setAllRestaurants(restaurantsArr);
         } else {
           console.log("No data available");
         }
@@ -86,15 +92,32 @@ export default function HomeScreen() {
     <SafeAreaView className="bg-white">
       <StatusBar barStyle="dark-content" />
       <View className="flex-row items-center space-x-2 px-4 pb-2">
-        <View className="flex-row flex-1 items-center p-3 rounded-full border border-gray-300">
-          <Icon.Search height="15" width="15" stroke="black" />
-          <TextInput placeholder="Search restaurants" className="ml-2 flex-1" />
-        </View>
+        <TouchableOpacity
+          className="flex-row flex-1 items-center p-3 rounded-full"
+          style={{ backgroundColor: themeColors.bgColor(1) }}
+          onPress={() =>
+            navigation.navigate("AllRestaurants", {
+              restaurants: allRestaurants,
+            })
+          }
+        >
+          <View style={{ flexDirection: "row" }} className="items-left">
+            <Text className="ml-2 text-white flex-1">
+              Search all restaurants
+            </Text>
+          </View>
+        </TouchableOpacity>
+
         <View
           style={{ backgroundColor: themeColors.bgColor(1) }}
           className="ml-3 p-3 rounded-full"
         >
-          <TouchableOpacity onPress={() => navigation.navigate("UserProfile")}>
+          <TouchableOpacity
+            onPress={() =>
+              countRestaurants > 0 &&
+              navigation.navigate("UserProfile", { allRestaurants })
+            }
+          >
             <Icon.User
               height="15"
               width="25"
@@ -104,15 +127,7 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
       </View>
-      <View
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingBottom: 20,
-        }}
-        style={{ marginBottom: 10 }}
-      >
-        <Categories />
-      </View>
+
       <View className="mt-1">
         {countRestaurants === 0 ? (
           <View className="items-center">
@@ -121,7 +136,7 @@ export default function HomeScreen() {
         ) : (
           <FeaturedRow
             title="Popular"
-            description="Most recently appreciated"
+            description="Most Appreciated Restaurants"
             restaurants={restaurants}
           />
         )}

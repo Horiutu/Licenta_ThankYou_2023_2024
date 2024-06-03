@@ -7,9 +7,9 @@ import { useNavigation } from "@react-navigation/native";
 import * as Icon from "react-native-feather";
 
 export default function QRScanner() {
+  const navigation = useNavigation();
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  const navigation = useNavigation();
 
   useEffect(() => {
     const getCameraPermissions = async () => {
@@ -20,9 +20,21 @@ export default function QRScanner() {
     getCameraPermissions();
   }, []);
 
+  const getRestaurandId = (qr_string) => {
+    const segments = qr_string.split("/");
+    return segments.pop();
+  };
+
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    // alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    console.log(
+      `Bar code with type ${type} and data ${data} has been scanned!`
+    );
+    console.log(getRestaurandId(data));
+    navigation.navigate("LocalRestaurant", {
+      item: { restaurantId: getRestaurandId(data) },
+    });
   };
 
   if (hasPermission === null) {

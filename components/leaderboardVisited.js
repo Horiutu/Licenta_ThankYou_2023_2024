@@ -2,60 +2,72 @@ import { View, Text, TouchableOpacity, FlatList } from "react-native";
 import React from "react";
 import { useState, useEffect } from "react";
 import { themeColors } from "../theme";
-import firestore from "firebase/firestore";
 import MostVisitedRestaurantCard from "./mostVisitedRestaurantCard";
 import { useNavigation } from "@react-navigation/native";
-
+import { child, get, getDatabase, ref } from "firebase/database";
 export default function LeaderBoardMostVisited() {
   const navigation = useNavigation();
-  const [restaurants, setRestaurants] = useState([]);
+  const [Toprestaurants, setTopRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const snapshot = await firestore()
-          .collection("restaurants")
-          .orderBy("number_of_visits", "desc")
-          .get();
-        const fetchedData = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setRestaurants(fetchedData);
-      } catch (error) {
+    const dbRef = ref(getDatabase());
+    let top3 = [];
+    get(child(dbRef, `restaurants`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const restaurantsArr = [];
+          const data = snapshot.val();
+          try {
+            Object.keys(data).forEach((key) => restaurantsArr.push(data[key]));
+            console.log(restaurantsArr);
+            restaurantsArr.sort(
+              (a, b) =>
+                b.statistics.number_of_visits - a.statistics.number_of_visits
+            );
+            top3 = restaurantsArr.slice(0, 4);
+          } catch (error) {
+            console.error(error);
+          }
+          setTopRestaurants(top3);
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
         console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+      });
   }, []);
 
   return (
-    <View className="">
+    <View className="mb-6">
       <View className="flex-row justify-between items-center px-4">
-        <View>
+        <View className="ml-0.5">
           <Text className="font-bold text-lg text-2xl">Leaderboard</Text>
           <Text className="text-gray-500 text-xs">
             Most Visited Restaurants
           </Text>
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate("LeaderboardAll")}>
+        <TouchableOpacity
+          className="mr-0.5"
+          onPress={() => navigation.navigate("LeaderboardAll")}
+        >
           <Text style={{ color: themeColors.text }} className="font-semibold">
             See all
           </Text>
         </TouchableOpacity>
       </View>
-      <View className="overflow-visible py-5">
+      <View className="">
         <FlatList
+          className="pt-2"
           vertical
           showsHorizontalScrollIndicator={false}
-          data={restaurants}
+          data={Toprestaurants}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <MostVisitedRestaurantCard item={item} />}
-        />
+          renderItem={({ item, index }) => (
+            <MostVisitedRestaurantCard item={item} index={index} />
+          )}
+        ></FlatList>
       </View>
     </View>
   );

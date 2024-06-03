@@ -60,18 +60,19 @@ export default function WelcomeScreen() {
             </Text>
           </TouchableOpacity>
         </View>
-
-        <View className="items-center pt-6">
-          <Text className="text-gray-400 justify-center">Or scan QR only</Text>
-        </View>
-
-        <View className="mx-6 pt-2">
-          <TouchableOpacity
-            onPress={() => navigation.navigate("QR")}
-            className="border border-2 border-white items-center py-2 rounded-lg"
-          >
-            <Text className="font-semibold text-white text-2xl">Scan QR</Text>
-          </TouchableOpacity>
+        <View className="items-center mt-10">
+          <Image
+            source={require("../assets/images/Logo_TY.png")}
+            style={[
+              {
+                height: 80,
+                width: 100,
+                shadowOffset: 20,
+                shadowColor: "#fff",
+              },
+              { tintColor: themeColors.bgColor(1) },
+            ]}
+          />
         </View>
       </View>
     </SafeAreaView>

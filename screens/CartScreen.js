@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import * as Icon from "react-native-feather";
 
 import {
@@ -9,32 +9,62 @@ import {
   TouchableOpacity,
   Button,
   Image,
+  Alert,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { removeItemFromCart } from "../redux/cartSlice";
 import { themeColors } from "../theme";
 import BackButtonBlack from "../components/backButtonBlack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useState, useEffect } from "react";
+import { child, set, getDatabase, ref } from "firebase/database";
+import { useNavigation } from "@react-navigation/native";
 
 export default function CartScreen() {
   const cartItems = useSelector((state) => state.cart.items);
   const restaurantId = useSelector((state) => state.cart.restaurantId);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
   const dispatch = useDispatch();
+  const [userId, setUserId] = useState(null);
+  const [userEmail, setUserEmail] = useState(null);
+  const navigation = useNavigation();
 
   console.log("Cart");
 
   useEffect(() => {
-    console.log("useEffect Cart");
     (async () => {
-      const userId = await AsyncStorage.getItem("user");
-      const userEmail = await AsyncStorage.getItem("email");
-      console.log(user);
+      const user = await AsyncStorage.getItem("user");
+      if (user) setUserId(JSON.parse(user).uid);
     })();
-  });
+  }, []);
 
   const handleRemoveFromCart = (id) => {
     dispatch(removeItemFromCart(id));
+  };
+
+  const handleSendOrder = async () => {
+    const orderId = Date.now().toString();
+    const order = {
+      userId,
+      restaurantId,
+      cartItems,
+      totalAmount,
+      date: new Date().toISOString(),
+    };
+
+    try {
+      const orderRef = ref(
+        getDatabase(),
+        "orders/" + restaurantId + "/" + orderId
+      );
+      await set(orderRef, order);
+      Alert.alert("Order Successful", "Your order has been placed.");
+      // Clear the cart or navigate back
+      navigation.navigate("Home");
+    } catch (error) {
+      Alert.alert("Order Failed", "There was an error placing your order.");
+      console.error(error);
+    }
   };
 
   return (
@@ -114,7 +144,7 @@ export default function CartScreen() {
           Total: {totalAmount.toFixed(2)} lei
         </Text>
         <View className="flex-row items-center">
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleSendOrder}>
             <Text className="font-bold mr-1 text-3xl">Send Order</Text>
           </TouchableOpacity>
           <Icon.Send strokeWidth={3} stroke="black" />

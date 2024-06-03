@@ -1,9 +1,4 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  SafeAreaView,
-} from "react-native";
+import { View, Text, ScrollView, SafeAreaView } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
@@ -19,7 +14,7 @@ export default function UserFinanceScreen() {
 
       <View
         style={{ flexDirection: "row", alignItems: "center" }}
-        className="my-12"
+        className="mt-12 mb-6"
       >
         <Text
           style={{ fontSize: 44, color: themeColors.text }}
@@ -30,22 +25,10 @@ export default function UserFinanceScreen() {
       </View>
 
       <View className="ml-6 pb-2">
-        <Text className="text-2xl font-thin font-s">Your cards</Text>
-      </View>
-
-      <ScrollView className="pt-2 pb-4">
-        <CreditCard />
-        <CreditCard />
-        <CreditCard />
-        <CreditCard />
-        <CreditCard />
-      </ScrollView>
-
-      <View className="ml-6 pb-2 pt-2">
         <Text className="text-2xl font-thin">Your payments</Text>
       </View>
 
-      <ScrollView>
+      <ScrollView className="pt-2">
         <PaymentHistoryCard />
         <PaymentHistoryCard />
 

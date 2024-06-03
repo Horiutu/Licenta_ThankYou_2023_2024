@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { themeColors } from "../theme";
 
-const DateSelector = () => {
+const DateSelector = ({ onChange }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
@@ -17,11 +17,12 @@ const DateSelector = () => {
 
   const handleConfirm = (date) => {
     setSelectedDate(date);
+    onChange(date);
     hideDatePicker();
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       <TouchableOpacity onPress={showDatePicker}>
         <Text className="text-lg font-bold" style={{ color: themeColors.text }}>
           Select the date

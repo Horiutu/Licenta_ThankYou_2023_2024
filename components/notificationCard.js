@@ -9,7 +9,10 @@ export default function NotificationCard() {
   const navigation = useNavigation();
   return (
     <TouchableWithoutFeedback onPress={() => navigation.navigate("Restaurant")}>
-      <View className="mt-2 items-center mr-6 ml-6 mb-4 py-4 bg-white rounded-2xl shadow flex-row">
+      <View
+        style={{ shadowColor: "#dc143c" }}
+        className="mt-2 items-center mr-6 ml-6 mb-2 py-4 bg-white shadow-sm rounded-2xl flex-row"
+      >
         <Icon.Bell
           className="ml-5"
           strokeWidth={3}

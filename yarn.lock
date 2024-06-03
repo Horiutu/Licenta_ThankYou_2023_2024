@@ -2350,15 +2350,27 @@
   dependencies:
     invariant "^2.2.4"
 
-"@react-native-firebase/app@^19.0.1":
-  version "19.0.1"
-  resolved "https://registry.npmjs.org/@react-native-firebase/app/-/app-19.0.1.tgz"
-  integrity sha512-opwy3mQfu0Vg7Fz07EzNCuRI6Wr8U3n6wp0IIwDbNg5zJWQN7ALa9OSN1SA16RhPepIXO1fFWbwmRsL2nOgrIw==
+"@react-native-firebase/app@^20.0.0", "@react-native-firebase/app@20.0.0":
+  version "20.0.0"
+  resolved "https://registry.npmjs.org/@react-native-firebase/app/-/app-20.0.0.tgz"
+  integrity sha512-h9Xgmj0Z0ga1ponhDnQ63yqkX288LOW+ZvstDWHDo2rgPu58nbAmdzs73MTmPjYdgm5Elm71puG1NRJX5n7wRw==
   dependencies:
     opencollective-postinstall "^2.0.3"
     superstruct "^0.6.2"
 
-"@react-native-picker/picker@^2.7.5":
+"@react-native-firebase/auth@^20.0.0":
+  version "20.0.0"
+  resolved "https://registry.npmjs.org/@react-native-firebase/auth/-/auth-20.0.0.tgz"
+  integrity sha512-/3cjoSjF6U27orj0qPxrqHs1/CNvEBjIK2Kv01aBNSKhGlxxMBXq4Dctolnx6hYuDA83td8SmTtFZM6C17G3Ug==
+  dependencies:
+    plist "^3.1.0"
+
+"@react-native-firebase/firestore@^20.0.0":
+  version "20.0.0"
+  resolved "https://registry.npmjs.org/@react-native-firebase/firestore/-/firestore-20.0.0.tgz"
+  integrity sha512-fn/0nYQPrq+Las8r4SkxKZ1fLcoAIpFqRA/ARIPW0F8C7IMpI0LugW6kpd+P6aVyT4I1mzLS+wr8n+02bifzVw==
+
+"@react-native-picker/picker@^2.7.6":
   version "2.7.6"
   resolved "https://registry.npmjs.org/@react-native-picker/picker/-/picker-2.7.6.tgz"
   integrity sha512-Cs3PxRmE2vu6TofM9vt9TV8ZYFOtEPSupNxwoorH9lpkKM9HGG8QwK2i29KOEoODpUbtudKHUTtqhMZSuX9pgA==
@@ -6772,7 +6784,7 @@ pkg-dir@^3.0.0:
   dependencies:
     find-up "^3.0.0"
 
-plist@^3.0.5:
+plist@^3.0.5, plist@^3.1.0:
   version "3.1.0"
   resolved "https://registry.npmjs.org/plist/-/plist-3.1.0.tgz"
   integrity sha512-uysumyrvkUX0rX/dEVqt8gC3sTBzd4zoWfLeS29nb53imdaXVvLINYXTI2GNqzaMuvacNx4uJQ8+b3zXR0pkgQ==

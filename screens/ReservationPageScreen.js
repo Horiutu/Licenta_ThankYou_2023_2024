@@ -16,8 +16,10 @@ import ReserveATable from "../components/reserveATable";
 import CancelButton from "../components/cancelButton";
 import BackButtonWhite from "../components/backButtonWhite";
 import BackButtonRed from "../components/backButtonRed";
+import { useRoute } from "@react-navigation/native";
 
 export default function ReservationPageScreen() {
+  const { params } = useRoute();
   const navigation = useNavigation();
 
   return (
@@ -48,11 +50,11 @@ export default function ReservationPageScreen() {
         </Text>
         <Text style={{ fontSize: 30 }} className="font-thin text-black">
           {" "}
-          Pasta Paradise
+          {params.restaurant.name}
         </Text>
       </View>
 
-      <ReserveATable />
+      <ReserveATable restaurantId={params.restaurant.id} />
     </SafeAreaView>
   );
 }

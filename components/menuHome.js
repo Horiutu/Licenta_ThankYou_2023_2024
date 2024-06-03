@@ -1,10 +1,49 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import { View, Text, TextInput, Image } from "react-native";
 import { themeColors } from "../theme";
 import * as Icon from "react-native-feather";
+import { debounce } from "lodash";
 
-export default function MenuHome({ menus, restaurant }) {
+export default function MenuHome({ menus: initialMenus, restaurant }) {
   const placeholderText = `Search in ${restaurant.name}`;
+  const [menus, setMenus] = useState(initialMenus);
+
+  const debouncedHandleSearch = useCallback(
+    debounce((val) => handleSearch(val), 300),
+    []
+  );
+
+  const handleSearch = (val) => {
+    if (val === "") {
+      setMenus(initialMenus);
+    } else {
+      const newMenus = Object.keys(initialMenus).map((key) => {
+        const newItemsKeys = Object.keys(initialMenus[key].items).filter(
+          (itemKey) => {
+            const currentItem = initialMenus[key].items[itemKey];
+            return (
+              currentItem.name.toLowerCase().includes(val.toLowerCase()) ||
+              currentItem.description.toLowerCase().includes(val.toLowerCase())
+            );
+          }
+        );
+
+        const menu = {
+          ...initialMenus[key],
+          items: {},
+        };
+
+        newItemsKeys.forEach((item) => {
+          if (initialMenus[key].items[item]) {
+            menu.items[item] = initialMenus[key].items[item];
+          }
+        });
+
+        return menu;
+      });
+      setMenus(newMenus.filter((menu) => Object.keys(menu.items).length > 0));
+    }
+  };
 
   return (
     <View
@@ -19,7 +58,11 @@ export default function MenuHome({ menus, restaurant }) {
       </View>
       <View className="flex-row flex-1 items-center p-3 rounded-full border border-gray-300 mx-6 mb-2 mt-2">
         <Icon.Search height="15" width="15" stroke="black" />
-        <TextInput placeholder={placeholderText} className="ml-2 flex-1" />
+        <TextInput
+          onChangeText={(val) => debouncedHandleSearch(val)}
+          placeholder={placeholderText}
+          className="ml-2 flex-1"
+        />
       </View>
 
       {Object.keys(menus).map((key) => {

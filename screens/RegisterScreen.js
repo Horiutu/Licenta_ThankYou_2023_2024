@@ -15,14 +15,14 @@ import { themeColors } from "../theme";
 export default function RegisterScreen() {
   const [email, setEmail] = useState("test@gmail.com");
   const [password, setPassword] = useState("123456");
-  const [fullName, setFullName] = useState("a");
+  const [name, setName] = useState("a");
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
   const handleSignUp = async () => {
     setLoading(true);
     try {
-      const user = await signUp(email, password);
+      const user = await signUp(email, password, name);
       if (user) {
         const id = user.uid;
         // await saveUserData(id, firstname, lastname);
@@ -87,8 +87,8 @@ export default function RegisterScreen() {
             autoCompleteType="name"
             keyboardType="name-phone-pad"
             placeholder="Full Name"
-            value={fullName}
-            onChangeText={setFullName}
+            value={name}
+            onChangeText={setName}
           />
         </View>
 
