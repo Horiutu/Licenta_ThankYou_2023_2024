@@ -1,6 +1,7 @@
 import {
   SafeAreaView,
   View,
+  StyleSheet,
   Text,
   TouchableOpacity,
   TextInput,
@@ -20,6 +21,50 @@ export default function LogInBusinessScreen() {
   const [businessCode, setBusinessCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [isUserLogged, setIsUserLogged] = useState(false);
+
+  if (isUserLogged) {
+    console.log("here");
+    navigation.navigate("BusinessHome");
+  }
+
+  useEffect(() => {
+    isUserAuthenticated()
+      .then((isLoggedIn) => setIsUserLogged(isLoggedIn))
+      .catch((err) => {
+        console.error(err);
+        throw err;
+      });
+  }, [isUserLogged, loading]);
+
+  const handleLogin = async () => {
+    try {
+      const user = await login(email, password, businessCode);
+      if (user) {
+        if (!user.emailVerified) {
+          alert(
+            "Please verify the account by clicking on the link received on email."
+          );
+          await emailVerification();
+          await logout();
+        }
+      }
+      setLoading(!loading);
+    } catch (err) {
+      setLoading(false);
+      if (
+        err.code === "auth/user-not-found" &&
+        err.code === "auth/wrong-password"
+      ) {
+        alert("Invalid email or password. Please try again.");
+      } else if (err.code === "auth/too-many-requests") {
+        alert(
+          "Too many unsuccessful request login attempts. Please try again later!"
+        );
+      } else {
+        alert("Sign-in error: " + err.message);
+      }
+    }
+  };
 
   return (
     <SafeAreaView className="bg-stone-900 flex-1 justify-center">
@@ -42,7 +87,7 @@ export default function LogInBusinessScreen() {
             stroke={themeColors.bgColor(1)}
           />
           <TextInput
-            style={{ color: "white" }}
+            style={styles.input}
             placeholderTextColor="white"
             autoCapitalize="none"
             keyboardType="email-address"
@@ -60,7 +105,7 @@ export default function LogInBusinessScreen() {
             stroke={themeColors.bgColor(1)}
           />
           <TextInput
-            style={{ color: "white" }}
+            style={styles.input}
             placeholderTextColor="white"
             autoCapitalize="none"
             placeholder="Business Code"
@@ -84,10 +129,12 @@ export default function LogInBusinessScreen() {
               paddingVertical: 0,
             }}
             placeholderTextColor="white"
-            placeholder="Business Password"
+            placeholder="Password"
             secureTextEntry={true}
+            value={password}
+            onChangeText={setPassword}
           />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Forgot")}>
             <Text
               style={{ color: themeColors.text }}
               className="font-semibold mt-2"
@@ -101,7 +148,7 @@ export default function LogInBusinessScreen() {
       <View className="absolute bottom-48 w-full z-50">
         <TouchableOpacity
           style={{ backgroundColor: themeColors.bgColor(1) }}
-          onPress={() => navigation.navigate("BusinessHome")}
+          onPress={handleLogin}
           className="flex-row justify-center items-center mx-7 rounded-r-lg rounded-l-lg py-3"
         >
           <View>
@@ -114,3 +161,12 @@ export default function LogInBusinessScreen() {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  input: {
+    color: "#fff",
+    height: 30,
+    width: "80%",
+    paddingRight: 10,
+  },
+});

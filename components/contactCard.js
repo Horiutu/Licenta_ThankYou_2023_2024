@@ -8,10 +8,18 @@ import { useNavigation } from "@react-navigation/native";
 export default function ContactCard({
   location,
   phone_number,
-  schedule,
+  openHour,
+  closingHour,
+  openMinutes,
+  closingMinutes,
   restaurant,
 }) {
   const navigation = useNavigation();
+
+  const addLeadingZeros = (num) => {
+    return num.toString().padStart(2, "0");
+  };
+
   const openGoogleMaps = (searchQuery) => {
     const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
       searchQuery
@@ -63,7 +71,13 @@ export default function ContactCard({
         style={{ flexDirection: "row", alignItems: "center" }}
       >
         <Icon.Clock strokeWidth={2} stroke={themeColors.bgColor(1)} />
-        <Text className="font-semi text-sm ml-2">{schedule}</Text>
+        <Text className="font-semi text-sm ml-2">
+          {`${addLeadingZeros(openHour)}:${addLeadingZeros(
+            openMinutes
+          )} - ${addLeadingZeros(closingHour)}:${addLeadingZeros(
+            closingMinutes
+          )}`}
+        </Text>
       </View>
       <View
         style={{ flexDirection: "row", alignItems: "center" }}

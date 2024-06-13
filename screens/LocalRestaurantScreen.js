@@ -12,6 +12,7 @@ import {
 } from "firebase/storage";
 import Menu from "../components/menu";
 import FAB from "../components/fab";
+import CartBubble from "../components/cartBubble";
 
 export default function LocalRestaurantScreen() {
   const { params: item } = useRoute();
@@ -96,7 +97,7 @@ export default function LocalRestaurantScreen() {
   }
 
   return (
-    <View>
+    <View className="flex-1">
       <ScrollView>
         <View className="relative">
           <Image className="w-full h-72" source={{ uri: restaurantData.url }} />

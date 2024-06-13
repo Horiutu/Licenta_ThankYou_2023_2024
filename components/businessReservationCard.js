@@ -5,23 +5,32 @@ import * as Icon from "react-native-feather";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
 
-export default function OrderBusinessCard({ order }) {
+export default function ReservationBusinessCard({ reservation }) {
   const navigation = useNavigation();
-  const orderDate = new Date(order.date);
+  const lastFourId = reservation.id.slice(-4);
 
-  const orderUTCHour = orderDate.getUTCHours();
-  const orderUTCMinutes = orderDate.getUTCMinutes();
+  const reservationDate = new Date(reservation.date);
+  const reservationHour = new Date(reservation.hour);
 
-  const formattedOrderHour = orderUTCHour.toString().padStart(2, "0");
-  const formattedOrderMinutes = orderUTCMinutes.toString().padStart(2, "0");
+  const reservationUTCHour = reservationHour.getUTCHours();
+  const reservationUTCMinutes = reservationHour.getUTCMinutes();
 
-  const orderExactDay = orderDate.getDate();
-  const orderExactMonth = orderDate.getMonth() + 1;
+  const formattedReservationHour = reservationUTCHour
+    .toString()
+    .padStart(2, "0");
+  const formattedReservationMinutes = reservationUTCMinutes
+    .toString()
+    .padStart(2, "0");
 
-  const formattedDay = orderExactDay.toString().padStart(2, "0");
-  const formattedMonth = orderExactMonth.toString().padStart(2, "0");
+  const reservationExactDay = reservationDate.getDate();
+  const reservationExactMonth = reservationDate.getMonth() + 1;
 
-  const lastFourId = order.id.slice(-4);
+  const formattedReservationDay = reservationExactDay
+    .toString()
+    .padStart(2, "0");
+  const formattedReservationMonth = reservationExactMonth
+    .toString()
+    .padStart(2, "0");
   return (
     <View>
       <View
@@ -29,7 +38,7 @@ export default function OrderBusinessCard({ order }) {
         className="mt-2 items-center mr-6 ml-6 mb-1 py-4 bg-stone-800 rounded-2xl shadow flex-row"
       >
         <View style={{ flexDirection: "row" }}>
-          <Text className="ml-4 text-lg text-white font-bold">Order</Text>
+          <Text className="ml-4 text-lg text-white font-bold">Reservation</Text>
           <Text
             style={{ color: themeColors.text }}
             className="ml-2 text-lg text-white font-bold"
@@ -42,7 +51,7 @@ export default function OrderBusinessCard({ order }) {
             style={{ color: themeColors.text2 }}
             className="ml-4 text-lg text-white font-bold"
           >
-            {formattedOrderHour}:{formattedOrderMinutes}
+            {formattedReservationHour}:{formattedReservationMinutes}
           </Text>
         </View>
         <View className="flex-row absolute right-20">
@@ -50,7 +59,7 @@ export default function OrderBusinessCard({ order }) {
             style={{ color: themeColors.text }}
             className="text-lg text-white font-bold"
           >
-            {formattedDay}.{formattedMonth}
+            {formattedReservationDay}.{formattedReservationMonth}
           </Text>
         </View>
       </View>

@@ -33,6 +33,7 @@ const DateSelector = ({ onChange }) => {
         mode="date"
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
+        minimumDate={new Date()}
       />
       <Text style={styles.label}>
         Selected Date:{" "}

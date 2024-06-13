@@ -1,13 +1,33 @@
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import * as Icon from "react-native-feather";
 import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
 import BackButtonBlack from "../components/backButtonBlack";
 import BackButtonWhite from "../components/backButtonWhite";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { logout } from "../services/userSignIn";
 
 export default function BusinessHomeScreen() {
   const navigation = useNavigation();
+
+  // FIXME: remove this piece of code
+  // useEffect(() => {
+  //   (async () => {
+  //     await logout();
+  //   })();
+  // }, []);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setLoading(!loading);
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  };
+
   return (
     <SafeAreaView className="bg-stone-900 flex-1 justify-center">
       <View className="flex-1">
@@ -115,7 +135,7 @@ export default function BusinessHomeScreen() {
 
         <TouchableOpacity
           onPress={() => navigation.navigate("BusinessReservations")}
-          className="absolute bottom-32 pb-3"
+          className="absolute bottom-32 pb-2"
         >
           <Text
             style={{ color: themeColors.text2 }}
@@ -126,22 +146,19 @@ export default function BusinessHomeScreen() {
         </TouchableOpacity>
 
         <View
+          className="absolute bottom-20 ml-6"
           style={{ flexDirection: "row", alignItems: "center" }}
-          className="absolute bottom-20"
         >
-          <TouchableOpacity
-            onPress={() => navigation.navigate("BusinessSettings")}
-            className="pb-3"
-          >
+          <TouchableOpacity onPress={handleLogout} className="">
             <Text
               style={{ color: themeColors.text }}
-              className="font-bold ml-6 text-3xl"
+              className="font-bold text-3xl"
             >
-              Settings
+              Logout
             </Text>
           </TouchableOpacity>
-          <Icon.Settings
-            className="ml-3 mb-3"
+          <Icon.CornerDownLeft
+            className="ml-3"
             strokeWidth={3}
             stroke={themeColors.bgColor(1)}
           />

@@ -1,4 +1,4 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { useState, useEffect } from "react";
 import HomeScreen from "../screens/HomeScreen";
@@ -15,6 +15,7 @@ import BusinessDetailsScreen from "../screens/BusinessDetailsScreen";
 import BusinessMenuScreen from "../screens/BusinessMenuScreen";
 import BusinessOrdersScreen from "../screens/BusinessOrdersScreen";
 import BusinessReservationsScreen from "../screens/BusinessReservationsScreen";
+import ReservationDetailsScreen from "../screens/BusinessReservationDetails";
 import BusinessScheduleScreen from "../screens/BusinessScheduleScreen";
 import BusinessSettingsScreen from "../screens/BusinessSettingsScreen";
 import UserProfileScreen from "../screens/UserProfileScreen";
@@ -31,15 +32,40 @@ import CartScreen from "../screens/CartScreen";
 import ReservationPageScreen from "../screens/ReservationPageScreen";
 import SessionRestaurantMenuScreen from "../screens/SessionRestaurantMenuScreen";
 import OrderDetailsScreen from "../screens/OrderDetailsScreen";
+import UserOrderDetailsScreen from "../components/userOrderDetails";
 import { useAuth } from "../hooks/useAuth";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
+import Spinner from "../components/spinner";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const prefix = Linking.createURL("/");
 const Stack = createNativeStackNavigator();
 
+function PendingScreen() {
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    AsyncStorage.getItem("isBusinessAccount")
+      .then((res) => {
+        const isBusinessAccount = JSON.parse(res);
+        if (isBusinessAccount) {
+          console.log("here");
+          navigation.navigate("BusinessHome");
+        } else {
+          navigation.navigate("Home");
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  return <Spinner className="bg-stone-900 flex-1 justify-center" />;
+}
+
 export default function Navigation() {
   const [data, setData] = useState(null);
-  const auth = useAuth();
+  const user = useAuth();
+
+  console.log(JSON.stringify(user, null, 2));
 
   const linking = {
     prefixes: [prefix],
@@ -77,6 +103,116 @@ export default function Navigation() {
     };
   }, []);
 
+  const renderStackScreens = () => {
+    if (!user) {
+      return (
+        <>
+          <Stack.Screen name="Welcome" component={WelcomeScreen} />
+          <Stack.Screen name="Register" component={RegisterScreen} />
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen
+            name="LogInBusinessScreen"
+            component={LogInBusinessScreen}
+          />
+          <Stack.Screen name="Forgot" component={ForgotPasswordScreen} />
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Stack.Screen
+            name="Pending"
+            component={PendingScreen}
+            options={{ animation: "none" }}
+          />
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{ animation: "none" }}
+          />
+          <Stack.Screen
+            name="SessionRestaurantScreen"
+            component={SessionRestaurantMenuScreen}
+          />
+          <Stack.Screen name="QR" component={QRCodeScreen} />
+          <Stack.Screen
+            name="AllRestaurants"
+            component={AllRestaurantsScreen}
+          />
+          <Stack.Screen name="Restaurant" component={RestaurantScreen} />
+          <Stack.Screen
+            name="LocalRestaurant"
+            component={LocalRestaurantScreen}
+          />
+          <Stack.Screen name="Cart" component={CartScreen} />
+          <Stack.Screen name="UserProfile" component={UserProfileScreen} />
+          <Stack.Screen
+            name="UserAppearance"
+            component={UserAppearanceScreen}
+          />
+          <Stack.Screen
+            name="UserOrderDetails"
+            component={UserOrderDetailsScreen}
+          />
+          <Stack.Screen
+            name="UserReservations"
+            component={UserReservationsScreen}
+          />
+          <Stack.Screen
+            name="ReservationPage"
+            component={ReservationPageScreen}
+          />
+          <Stack.Screen name="UserFinance" component={UserFinanceScreen} />
+          <Stack.Screen name="UserSettings" component={UserSettingsScreen} />
+          <Stack.Screen name="AllSet" component={AllSetScreen} />
+          <Stack.Screen
+            name="LeaderboardAll"
+            component={LeaderboardRestaurantsAllScreen}
+          />
+          <Stack.Screen
+            name="PopularAll"
+            component={PopularRestaurantsAllScreen}
+          />
+          <Stack.Screen name="OrderDetails" component={OrderDetailsScreen} />
+          <Stack.Screen
+            name="BusinessHome"
+            component={BusinessHomeScreen}
+            options={{ animation: "none" }}
+          />
+          <Stack.Screen
+            name="BusinessAppearance"
+            component={BusinessAppearanceScreen}
+          />
+          <Stack.Screen
+            name="BusinessDetails"
+            component={BusinessDetailsScreen}
+          />
+          <Stack.Screen
+            name="ReservationDetails"
+            component={ReservationDetailsScreen}
+          />
+          <Stack.Screen name="BusinessMenu" component={BusinessMenuScreen} />
+          <Stack.Screen
+            name="BusinessOrders"
+            component={BusinessOrdersScreen}
+          />
+          <Stack.Screen
+            name="BusinessReservations"
+            component={BusinessReservationsScreen}
+          />
+          <Stack.Screen
+            name="BusinessSchedule"
+            component={BusinessScheduleScreen}
+          />
+          <Stack.Screen
+            name="BusinessSettings"
+            component={BusinessSettingsScreen}
+          />
+        </>
+      );
+    }
+  };
+
   return (
     <NavigationContainer linking={linking}>
       <Stack.Navigator
@@ -85,88 +221,7 @@ export default function Navigation() {
           headerShown: false,
         }}
       >
-        {auth?.currentUser ? (
-          <>
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen
-              name="SessionRestaurantScreen"
-              component={SessionRestaurantMenuScreen}
-            />
-            <Stack.Screen name="QR" component={QRCodeScreen} />
-            <Stack.Screen
-              name="AllRestaurants"
-              component={AllRestaurantsScreen}
-            />
-            <Stack.Screen name="Restaurant" component={RestaurantScreen} />
-            <Stack.Screen
-              name="LocalRestaurant"
-              component={LocalRestaurantScreen}
-            />
-            <Stack.Screen name="Cart" component={CartScreen} />
-            <Stack.Screen name="UserProfile" component={UserProfileScreen} />
-            <Stack.Screen
-              name="UserAppearance"
-              component={UserAppearanceScreen}
-            />
-            <Stack.Screen
-              name="UserReservations"
-              component={UserReservationsScreen}
-            />
-            <Stack.Screen
-              name="ReservationPage"
-              component={ReservationPageScreen}
-            />
-            <Stack.Screen name="UserFinance" component={UserFinanceScreen} />
-            <Stack.Screen name="UserSettings" component={UserSettingsScreen} />
-            <Stack.Screen name="AllSet" component={AllSetScreen} />
-            <Stack.Screen name="BusinessHome" component={BusinessHomeScreen} />
-            <Stack.Screen
-              name="BusinessAppearance"
-              component={BusinessAppearanceScreen}
-            />
-            <Stack.Screen
-              name="BusinessDetails"
-              component={BusinessDetailsScreen}
-            />
-            <Stack.Screen name="BusinessMenu" component={BusinessMenuScreen} />
-            <Stack.Screen
-              name="BusinessOrders"
-              component={BusinessOrdersScreen}
-            />
-            <Stack.Screen
-              name="BusinessReservations"
-              component={BusinessReservationsScreen}
-            />
-            <Stack.Screen
-              name="LeaderboardAll"
-              component={LeaderboardRestaurantsAllScreen}
-            />
-            <Stack.Screen
-              name="PopularAll"
-              component={PopularRestaurantsAllScreen}
-            />
-            <Stack.Screen
-              name="BusinessSchedule"
-              component={BusinessScheduleScreen}
-            />
-            <Stack.Screen
-              name="BusinessSettings"
-              component={BusinessSettingsScreen}
-            />
-            <Stack.Screen name="OrderDetails" component={OrderDetailsScreen} />
-          </>
-        ) : (
-          <>
-            <Stack.Screen name="Welcome" component={WelcomeScreen} />
-            <Stack.Screen name="Register" component={RegisterScreen} />
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen
-              name="LogInBusinessScreen"
-              component={LogInBusinessScreen}
-            />
-            <Stack.Screen name="Forgot" component={ForgotPasswordScreen} />
-          </>
-        )}
+        {renderStackScreens()}
       </Stack.Navigator>
     </NavigationContainer>
   );

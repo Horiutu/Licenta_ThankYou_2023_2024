@@ -1,40 +1,67 @@
-import { View, Text, ScrollView, SafeAreaView } from "react-native";
+import { View, Text, ScrollView, SafeAreaView, Touchable } from "react-native";
 import React from "react";
-import * as Icon from "react-native-feather";
 import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
 import BackButtonBlack from "../components/backButtonBlack";
-import NotificationCard from "../components/notificationCard";
+import ReservationCard from "../components/reservationCard";
+import { useRoute } from "@react-navigation/native";
+import OrderUserCard from "../components/orderUserCard";
+import * as Icon from "react-native-feather";
+import { TouchableOpacity } from "react-native";
 
-export default function UserAppearanceScreen() {
+export default function UserAppearanceScreen({ route }) {
   const navigation = useNavigation();
+  const { orders, allRestaurants } = route.params;
+
+  const sortedOrders = [...orders].sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  );
+
   return (
-    <SafeAreaView className="bg-white flex-1 justify-center">
+    <SafeAreaView className="bg-white flex-1">
       <BackButtonBlack />
 
       <View
-        style={{ flexDirection: "row", alignItems: "center" }}
-        className="mt-14"
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          borderBottomColor: themeColors.bgColor(1),
+          borderBottomWidth: 2,
+          marginTop: 50,
+        }}
       >
         <Text
           style={{ fontSize: 44, color: themeColors.text }}
-          className="font-bold ml-3 text-white"
+          className="font-bold ml-6 mb-2 text-white"
         >
-          {" "}
-          Notifications
+          Orders
         </Text>
         <Icon.Bell
-          className="ml-2"
+          className="ml-2 mb-2"
+          strokeWidth={3}
           height={40}
           width={30}
-          strokeWidth={3}
           stroke={themeColors.bgColor(1)}
         />
       </View>
-      <ScrollView className="mt-4">
-        <NotificationCard />
-        <NotificationCard />
-        <NotificationCard />
+
+      <ScrollView className="mt-6">
+        {sortedOrders.map((order) => {
+          const restId = order.restaurantId;
+          const restaurant = allRestaurants.find((r) => r.id === restId);
+
+          return (
+            <OrderUserCard
+              key={order.orderId}
+              item={order}
+              restaurant={allRestaurants.find(
+                (r) => r.id === order.restaurantId
+              )}
+              orderId={order.orderId} // Pass the orderId
+              orderStatus={order.status}
+            />
+          );
+        })}
       </ScrollView>
     </SafeAreaView>
   );

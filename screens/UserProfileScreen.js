@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
 import { themeColors } from "../theme";
 import ReservationCard from "../components/reservationCard";
-import { logout } from "../services/userSignIn";
+import { isUserAuthenticated, logout } from "../services/userSignIn";
 import BackButtonBlack from "../components/backButtonBlack";
 import { useState, useEffect } from "react";
 import { FIREBASE_AUTH } from "../services/config";
@@ -26,22 +26,37 @@ import { child, get, getDatabase, ref } from "firebase/database";
 export default function UserProfileScreen() {
   const { params } = useRoute();
   const navigation = useNavigation();
-  const [userName, setUserName] = useState("");
-  const [userId, setUserId] = useState("");
+
+  const auth = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [isUserLogged, setIsUserLogged] = useState(true);
+
+  if (!isUserLogged) {
+    navigation.navigate("Welcome");
+  }
+
+  const [userName, setUserName] = useState(auth.displayName);
+  const [userId, setUserId] = useState(auth.uid);
   const [reservations, setReservations] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [nextReservation, setNextReservation] = useState([]);
-  const [nextReservationRestaurtant, setNextReservationRestaurant] = useState(
+  const [nextReservationRestaurant, setNextReservationRestaurant] = useState(
     []
   );
   const [countReservations, setCountReservations] = useState(0);
+  const [countOrders, setCountOrders] = useState(0);
 
   useEffect(() => {
-    (async () => {
-      const user = await AsyncStorage.getItem("user");
-      // console.debug("Auth object in useEffect: ", JSON.parse(user).uid);
-      setUserName(JSON.parse(user).displayName);
-      setUserId(JSON.parse(user).uid);
-    })();
+    isUserAuthenticated()
+      .then((isLoggedIn) => {
+        setIsUserLogged(isLoggedIn);
+        setUserName(auth.displayName);
+        setUserId(auth.uid);
+      })
+      .catch((err) => {
+        console.error(err);
+        throw err;
+      });
 
     const dbRef = ref(getDatabase());
 
@@ -55,10 +70,6 @@ export default function UserProfileScreen() {
             Object.keys(data).forEach((restaurantId) => {
               Object.keys(data[restaurantId]).forEach((reservationId) => {
                 const reservation = data[restaurantId][reservationId];
-                console.log(userId);
-                console.log(reservation.userId);
-                console.log(reservation.userId == userId);
-
                 if (reservation.userId == userId) {
                   reservationsArr.push({
                     ...reservation,
@@ -67,68 +78,114 @@ export default function UserProfileScreen() {
                 }
               });
             });
-            console.debug(reservationsArr);
           } catch (error) {
             console.error(error);
           }
-          // Sort reservations by date
+
           const today = new Date();
           reservationsArr.sort((a, b) => {
             const dateA = new Date(a.date);
             const dateB = new Date(b.date);
             if (dateA >= today && dateB >= today) {
-              return dateA - dateB; // Future reservations: earlier dates first
+              return dateA - dateB;
             } else if (dateA < today && dateB < today) {
-              return dateB - dateA; // Past reservations: later dates first
+              return dateB - dateA;
             } else if (dateA >= today) {
-              return -1; // Future reservations before past reservations
+              return -1;
             } else {
-              return 1; // Past reservations after future reservations
+              return 1;
             }
           });
-          console.debug(reservationsArr);
-          console.debug(reservationsArr.length);
-          if (reservationsArr.length > 0) {
-            restId = reservationsArr[0].restaurantId;
+
+          const nextReservationItem =
+            reservationsArr.find(
+              (reservation) => reservation.status === "Accepted"
+            ) || reservationsArr[0];
+
+          if (nextReservationItem) {
+            const restId = nextReservationItem.restaurantId;
             const restaurant = params.allRestaurants.find(
               (r) => r.id === restId
             );
-
-            console.debug(params.allRestaurants);
-            console.debug(restaurant);
-            console.debug(restId);
-            setNextReservation(reservationsArr[0]);
+            setNextReservation(nextReservationItem);
             setNextReservationRestaurant(restaurant);
           }
+
           setReservations(reservationsArr);
           setCountReservations(reservationsArr.length);
         } else {
-          console.log("No data available");
+          console.log("No data");
         }
       })
       .catch((error) => {
         console.error(error);
       });
-  }, []);
 
-  // useEffect(() => {
-  //   if (auth) {
-  //     console.log("Auth object in useEffect: ", auth);
-  //     setUserName(auth.displayName);
-  //   }
-  // }, [auth]);
+    get(child(dbRef, `orders`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const ordersArr = [];
+          const data = snapshot.val();
+
+          try {
+            Object.keys(data).forEach((restaurantId) => {
+              Object.keys(data[restaurantId]).forEach((orderId) => {
+                const order = data[restaurantId][orderId];
+
+                if (order.userId === userId) {
+                  ordersArr.push({ ...order, orderId });
+                }
+              });
+            });
+
+            const today = new Date();
+            ordersArr.sort((a, b) => {
+              const dateA = new Date(a.date);
+              const dateB = new Date(b.date);
+              if (dateA >= today && dateB >= today) {
+                return dateA - dateB;
+              } else if (dateA < today && dateB < today) {
+                return dateB - dateA;
+              } else if (dateA >= today) {
+                return -1;
+              } else {
+                return 1;
+              }
+            });
+
+            if (ordersArr.length > 0) {
+              const restId = ordersArr[0].restaurantId;
+              const restaurant = params.allRestaurants.find(
+                (r) => r.id === restId
+              );
+            }
+            setOrders(ordersArr);
+            setCountOrders(ordersArr.length);
+          } catch (error) {
+            console.error(error);
+          }
+        } else {
+          console.log("No data");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [isUserLogged, loading]);
 
   const handleLogout = async () => {
     try {
       await logout();
-      navigation.navigate("Login");
+      setLoading(!loading);
     } catch (err) {
       console.error(err);
       throw err;
     }
   };
 
-  // console.log("Rendered with userName: ", userName);
+  if (!auth || loading) {
+    return <Spinner />;
+  }
 
   return (
     <SafeAreaView className="bg-white flex-1">
@@ -143,20 +200,28 @@ export default function UserProfileScreen() {
           Hi,
         </Text>
         <Text style={{ fontSize: 44 }} className="font-thin text-black ml-3">
-          {userName}
+          {userName}!
         </Text>
       </View>
 
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("UserAppearance")}
+          onPress={() =>
+            navigation.navigate("UserAppearance", {
+              orders: orders.map((order) => ({
+                ...order,
+                orderId: order.orderId,
+              })),
+              allRestaurants: params.allRestaurants,
+            })
+          }
           className="pb-3"
         >
           <Text
             style={{ color: themeColors.text }}
             className="font-bold ml-6 text-3xl"
           >
-            Notifications
+            Orders
           </Text>
         </TouchableOpacity>
         <Icon.Bell
@@ -168,7 +233,15 @@ export default function UserProfileScreen() {
 
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <TouchableOpacity
-          onPress={() => navigation.navigate("UserReservations")}
+          onPress={() =>
+            navigation.navigate("UserReservations", {
+              reservations: reservations.map((reservation) => ({
+                ...reservation,
+                reservationId: reservation.reservationId,
+              })),
+              allRestaurants: params.allRestaurants,
+            })
+          }
           className="pb-3"
         >
           <Text
@@ -208,20 +281,21 @@ export default function UserProfileScreen() {
         <Text className="text-2xl font-thin font-s">Your next reservation</Text>
       </View>
 
-      {countReservations === 0 ? (
-        <View className="items-center">
-          <Text className="font-semi text-black text-2xl">
-            No reservation yet...
-          </Text>
-        </View>
-      ) : (
-        // <View></View>
-        <ReservationCard
-          item={nextReservation}
-          restaurant={nextReservationRestaurtant}
-        />
-      )}
-
+      <View>
+        {countReservations === 0 ? (
+          <View className="items-center">
+            <Text className="font-semi text-black text-2xl">
+              No reservation yet...
+            </Text>
+          </View>
+        ) : (
+          <ReservationCard
+            item={nextReservation}
+            restaurant={nextReservationRestaurant}
+            reservationStatus={nextReservation.status}
+          />
+        )}
+      </View>
       <View
         className="mt-8 ml-6"
         style={{ flexDirection: "row", alignItems: "center" }}

@@ -12,6 +12,7 @@ import * as Icon from "react-native-feather";
 import { themeColors } from "../theme";
 import { isUserAuthenticated, login, logout } from "../services/userSignIn";
 import { emailVerification } from "../services/utils";
+import Spinner from "../components/spinner";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -63,6 +64,10 @@ export default function LoginScreen() {
       }
     }
   };
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <SafeAreaView className="bg-stone-900 flex-1 justify-center">

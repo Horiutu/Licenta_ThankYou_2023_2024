@@ -5,13 +5,14 @@ import { themeColors } from "../theme";
 import { useNavigation } from "@react-navigation/native";
 import { getDownloadURL, getStorage, ref } from "firebase/storage";
 
-export default function ReservationCard({
+export default function OrderUserCard({
   item,
   restaurant,
-  reservationStatus,
-  restaurantId,
+  orderStatus,
+  orderId,
 }) {
   const navigation = useNavigation();
+
   const [url, setUrl] = useState("");
 
   useEffect(() => {
@@ -30,9 +31,8 @@ export default function ReservationCard({
     });
   });
 
+  const lastFourId = orderId.slice(-4);
   const reservationDate = new Date(item.date);
-  const reservationHour = new Date(item.hour);
-  const reservationNrPers = item.numberOfPersons;
 
   const reservationExactDay = reservationDate.getDate();
   const reservationExactMonth = reservationDate.getMonth() + 1;
@@ -40,21 +40,45 @@ export default function ReservationCard({
   const formattedDay = reservationExactDay.toString().padStart(2, "0");
   const formattedMonth = reservationExactMonth.toString().padStart(2, "0");
 
-  const reservationUTCHour = reservationHour.getUTCHours();
-  const reservationUTCMinutes = reservationHour.getUTCMinutes();
+  const reservationUTCHour = reservationDate.getUTCHours();
+  const reservationUTCMinutes = reservationDate.getUTCMinutes();
 
-  // Format the hours and minutes to always display two digits
   const formattedHour = reservationUTCHour.toString().padStart(2, "0");
   const formattedMinutes = reservationUTCMinutes.toString().padStart(2, "0");
 
   const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
       case "accepted":
-        return "green";
-      case "pending request":
+        return "chartreuse";
+      case "sent":
         return "orange";
+      case "in progress":
+        return "yellow";
       case "declined":
         return "red";
+      case "completed":
+        return "darkgreen";
+      case "waiter is coming":
+        return "aqua";
+      default:
+        return themeColors.text;
+    }
+  };
+
+  const getStatusTextColor = (status) => {
+    switch (status.toLowerCase()) {
+      case "accepted":
+        return "black";
+      case "sent":
+        return "white";
+      case "in progress":
+        return "black";
+      case "declined":
+        return "white";
+      case "completed":
+        return "white";
+      case "waiter is coming":
+        return "black";
       default:
         return themeColors.text;
     }
@@ -62,7 +86,7 @@ export default function ReservationCard({
 
   return (
     <TouchableWithoutFeedback
-      onPress={() => navigation.navigate("Restaurant", { ...restaurant, url })}
+      onPress={() => navigation.navigate("UserOrderDetails", { order: item })}
     >
       <View className="mr-6 mb-6 ml-6 bg-white rounded-3xl shadow-lg">
         <Image
@@ -76,47 +100,33 @@ export default function ReservationCard({
         />
         <View className="px-3 pb-4 space-y-2">
           <View className="flex-row items-center flex-row">
-            <Text className="text-2xl font-bold pt-2">{restaurant.name}</Text>
-          </View>
-
-          <View className="flex-row items-center space-x-1">
-            <Image
-              source={require("../assets/images/starRed.png")}
-              className="h-4 w-4"
-            />
-            <Text className="text-xs">
-              <Text className="font-semibold text-gray">
-                {" "}
-                {restaurant.statistics.rating}{" "}
-              </Text>
-              ·
-              <Text className="font-semibold text-gray">
-                {" "}
-                {restaurant.statistics.number_of_reviews} reviews
-              </Text>{" "}
-              ·{" "}
-              <Text className="font-semibold text-gray">
-                {restaurant.category}
-              </Text>
+            <Text className="text-3xl font-bold pt-2">Order</Text>
+            <Text className="ml-2 text-3xl text-black font-bold pt-2">#</Text>
+            <Text
+              style={{ color: themeColors.text }}
+              className="ml-0.5 text-3xl font-bold pt-2"
+            >
+              {lastFourId}
             </Text>
           </View>
-          <View className="flex-row items-center space-x-1">
+
+          <View className="flex-row items-top space-x-1">
             <Icon.MapPin
+              className="mt-1"
               strokeWidth={2}
-              stroke={themeColors.bgColor(1)}
+              stroke={"black"}
               width={15}
               height={15}
             />
-            <Text className="text-gray-700 text-xs">
-              {" "}
-              {restaurant.location.address}{" "}
+            <Text className="text-black text-sm">
+              {restaurant.name}, {restaurant.location.address}
             </Text>
           </View>
         </View>
         <View className="flex-row -mt-4 items-baseline">
           <Text
-            style={{ color: "black" }}
-            className="absolute right-24 font-bold text-sm bottom-2.5"
+            style={{ position: "absolute", right: 88 }}
+            className="text-gray-700 font-bold text-sm bottom-2.5"
           >
             {formattedDay}.{formattedMonth}
           </Text>
@@ -126,21 +136,38 @@ export default function ReservationCard({
           >
             {formattedHour}:{formattedMinutes}
           </Text>
+          <Text className="ml-3.5 mt-1 font-semibold text-gray-700 text-lg pb-2">
+            Total amount:
+          </Text>
           <Text
             style={{ color: themeColors.text }}
-            className="ml-3.5 mt-1 font-bold text-lg pb-2"
+            className="ml-1 mt-1 font-bold text-lg pb-2"
           >
-            {reservationNrPers} person(s)
+            {item.totalAmount}
+          </Text>
+          <Text
+            style={{ color: themeColors.text }}
+            className="ml-1 mt-1 font-bold text-lg pb-2"
+          >
+            lei
           </Text>
         </View>
         <View
-          style={{ backgroundColor: getStatusColor(reservationStatus) }}
+          style={{ backgroundColor: getStatusColor(orderStatus) }}
           className="mx-3 mb-3 rounded-lg"
         >
           <View className="flex-row">
-            <Text className="ml-3 text-white font-bold text-lg">Status:</Text>
-            <Text className="ml-3 text-white font-semi text-lg">
-              {reservationStatus}
+            <Text
+              style={{ color: getStatusTextColor(orderStatus) }}
+              className="ml-3 font-bold text-lg"
+            >
+              Status:
+            </Text>
+            <Text
+              style={{ color: getStatusTextColor(orderStatus) }}
+              className="ml-3 font-semi text-lg"
+            >
+              {orderStatus}
             </Text>
           </View>
         </View>

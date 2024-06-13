@@ -60,18 +60,15 @@ export default function WelcomeScreen() {
             </Text>
           </TouchableOpacity>
         </View>
+
         <View className="items-center mt-10">
           <Image
             source={require("../assets/images/Logo_TY.png")}
-            style={[
-              {
-                height: 80,
-                width: 100,
-                shadowOffset: 20,
-                shadowColor: "#fff",
-              },
-              { tintColor: themeColors.bgColor(1) },
-            ]}
+            style={{
+              height: 60,
+              width: 100,
+              tintColor: themeColors.bgColor(1),
+            }}
           />
         </View>
       </View>

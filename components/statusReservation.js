@@ -5,8 +5,11 @@ import { themeColors } from "../theme";
 import { FIRESTORE_DBDB } from "../services/config";
 import { ref, get, update } from "firebase/database";
 
-export default function StatusOrder({ loggedInBusinessCode, orderId }) {
-  const [status, setStatus] = useState("Sent");
+export default function StatusReservation({
+  loggedInBusinessCode,
+  reservationId,
+}) {
+  const [status, setStatus] = useState("Received");
   const navigation = useNavigation();
   const restaurant = loggedInBusinessCode;
 
@@ -15,7 +18,7 @@ export default function StatusOrder({ loggedInBusinessCode, orderId }) {
       try {
         const statusRef = ref(
           FIRESTORE_DBDB,
-          `orders/${restaurant}/${orderId}/status`
+          `reservations/${restaurant}/${reservationId}/status`
         );
         const snapshot = await get(statusRef);
         if (snapshot.exists()) {
@@ -30,7 +33,10 @@ export default function StatusOrder({ loggedInBusinessCode, orderId }) {
   }, []);
 
   const updateStatus = (newStatus) => {
-    const statusRef = ref(FIRESTORE_DBDB, `orders/${restaurant}/${orderId}`);
+    const statusRef = ref(
+      FIRESTORE_DBDB,
+      `reservations/${restaurant}/${reservationId}`
+    );
     update(statusRef, {
       status: newStatus,
     })
@@ -56,40 +62,27 @@ export default function StatusOrder({ loggedInBusinessCode, orderId }) {
           className="p-2 rounded-full shadow bg-stone-800 ml-3"
           style={{
             borderWidth: 2,
-            borderColor: status === "Sent" ? "orange" : "transparent",
+            borderColor:
+              status === "Pending request" ? "#FFF301" : "transparent",
           }}
-          onPress={() => updateStatus("Sent")}
+          onPress={() => updateStatus("Pending request")}
         >
-          <Text style={{ color: "orange" }} className="px-2">
-            Sent
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          className="p-2 rounded-full shadow bg-stone-800 ml-3"
-          style={{
-            borderWidth: 2,
-            borderColor: status === "In progress" ? "yellow" : "transparent",
-          }}
-          onPress={() => updateStatus("In progress")}
-        >
-          <Text style={{ color: "yellow" }} className="px-2">
-            In progress
+          <Text style={{ color: "#FFF301" }} className="px-2">
+            Pending request
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           className="p-2 rounded-full shadow bg-stone-800 ml-2"
           style={{
             borderWidth: 2,
-            borderColor: status === "Accepted" ? "chartreuse" : "transparent",
+            borderColor: status === "Accepted" ? "#17FF00" : "transparent",
           }}
           onPress={() => updateStatus("Accepted")}
         >
-          <Text style={{ color: "chartreuse" }} className="px-2">
+          <Text style={{ color: "#17FF00" }} className="px-2">
             Accepted
           </Text>
         </TouchableOpacity>
-      </View>
-      <View style={{ flexDirection: "row" }} className="ml-1 mt-4">
         <TouchableOpacity
           className="p-2 rounded-full shadow bg-stone-800 ml-2"
           style={{
@@ -101,30 +94,6 @@ export default function StatusOrder({ loggedInBusinessCode, orderId }) {
         >
           <Text style={{ color: themeColors.text }} className="px-2">
             Declined
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          className="p-2 rounded-full shadow bg-stone-800 ml-2"
-          style={{
-            borderWidth: 2,
-            borderColor: status === "Completed" ? "darkgreen" : "transparent",
-          }}
-          onPress={() => updateStatus("Completed")}
-        >
-          <Text style={{ color: "darkgreen" }} className="px-2">
-            Completed
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          className="p-2 rounded-full shadow bg-stone-800 ml-2"
-          style={{
-            borderWidth: 2,
-            borderColor: status === "Waiter is coming" ? "aqua" : "transparent",
-          }}
-          onPress={() => updateStatus("Waiter is coming")}
-        >
-          <Text style={{ color: "aqua" }} className="px-2">
-            Waiter is coming
           </Text>
         </TouchableOpacity>
       </View>

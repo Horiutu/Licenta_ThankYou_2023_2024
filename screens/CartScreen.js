@@ -24,6 +24,7 @@ export default function CartScreen() {
   const cartItems = useSelector((state) => state.cart.items);
   const restaurantId = useSelector((state) => state.cart.restaurantId);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
+  const [status, setStatus] = useState("Sent");
   const dispatch = useDispatch();
   const [userId, setUserId] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
@@ -49,6 +50,7 @@ export default function CartScreen() {
       restaurantId,
       cartItems,
       totalAmount,
+      status,
       date: new Date().toISOString(),
     };
 

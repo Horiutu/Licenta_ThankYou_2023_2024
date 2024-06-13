@@ -8,7 +8,6 @@ import { View, ActivityIndicator } from "react-native";
 import Spinner from "./spinner";
 
 if (getApps().length < 1) {
-  // FIXME: import from config
   initializeApp(firebaseConfig);
 }
 
@@ -21,7 +20,12 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     (async () => {
       const user = await AsyncStorage.getItem("user");
-      setCurrentUser(user);
+      if (!user) {
+        setIsLoading(false);
+      }
+      const parsedUser = JSON.parse(user);
+
+      setCurrentUser(parsedUser);
       setIsLoading(false);
     })();
   }, []);
@@ -37,8 +41,6 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ currentUser }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={currentUser}>{children}</AuthContext.Provider>
   );
 };

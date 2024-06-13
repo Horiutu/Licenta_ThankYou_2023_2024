@@ -15,13 +15,15 @@ import BackButtonWhite from "../components/backButtonWhite";
 import OrderBusinessCard from "../components/ordersBusiness";
 import BackButtonRed from "../components/backButtonRed";
 import StatusOrder from "../components/setOrderStatus";
+import PayNowButton from "./payNowButton";
 
-export default function OrderDetailsScreen() {
+export default function UserOrderDetailsScreen() {
   const navigation = useNavigation();
   const route = useRoute();
-  const { order, loggedInBusinessCode } = route.params;
-  const lastFourId = order.id.slice(-4);
-  const firstFourId = order.userId.slice(-4);
+  const { order } = route.params;
+
+  const lastFourId = order.orderId.slice(-4);
+
   const orderDate = new Date(order.date);
 
   const orderUTCHour = orderDate.getUTCHours();
@@ -35,18 +37,24 @@ export default function OrderDetailsScreen() {
 
   const formattedDay = orderExactDay.toString().padStart(2, "0");
   const formattedMonth = orderExactMonth.toString().padStart(2, "0");
+
   return (
-    <SafeAreaView className="bg-stone-900 flex-1">
-      <BackButtonRed />
+    <SafeAreaView className="bg-white flex-1">
+      <BackButtonBlack />
       <View
-        style={{ flexDirection: "row", alignItems: "center" }}
-        className="mt-12 mb-4"
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          borderBottomColor: themeColors.bgColor(1),
+          borderBottomWidth: 2,
+        }}
+        className="mt-12 mb-4 pb-2"
       >
-        <Text style={{ fontSize: 44 }} className="font-bold ml-3 text-white">
+        <Text style={{ fontSize: 44 }} className="font-bold ml-3 text-black">
           {" "}
           Order
         </Text>
-        <Text style={{ fontSize: 44 }} className="font-bold ml-3 text-white">
+        <Text style={{ fontSize: 44 }} className="font-bold ml-3 text-black">
           #
         </Text>
         <Text
@@ -56,17 +64,7 @@ export default function OrderDetailsScreen() {
           {lastFourId}
         </Text>
       </View>
-      <View className="ml-3 flex-row">
-        <Text
-          style={{ color: themeColors.text }}
-          className="ml-3 font-bold text-2xl mb-3"
-        >
-          Name:
-        </Text>
-        <Text className="ml-3 text-white font-bold text-2xl mb-3">
-          {firstFourId}
-        </Text>
-      </View>
+
       <View className="ml-3 flex-row">
         <Text
           style={{ color: themeColors.text }}
@@ -74,10 +72,7 @@ export default function OrderDetailsScreen() {
         >
           Date:
         </Text>
-        <Text
-          style={{ color: themeColors.text2 }}
-          className="ml-3 font-bold text-2xl mb-3"
-        >
+        <Text className="ml-3 font-bold text-2xl mb-3">
           {formattedDay}.{formattedMonth} {formattedOrderHour}:
           {formattedOrderMinutes}
         </Text>
@@ -89,14 +84,14 @@ export default function OrderDetailsScreen() {
         >
           Total amount:
         </Text>
-        <Text className="ml-3 text-white font-bold text-2xl mb-3">
+        <Text className="ml-3 text-black font-bold text-2xl mb-4">
           {order.totalAmount} lei
         </Text>
       </View>
-      <StatusOrder
-        orderId={order.id}
-        loggedInBusinessCode={loggedInBusinessCode}
-      />
+
+      <View className="mx-6">
+        <PayNowButton />
+      </View>
 
       <View
         style={{ borderTopColor: themeColors.text, borderTopWidth: 2 }}
@@ -104,9 +99,9 @@ export default function OrderDetailsScreen() {
       >
         <Text
           style={{
-            color: themeColors.text2,
+            color: themeColors.text,
           }}
-          className="mt-4 ml-6 font-bold text-4xl mb-2.5"
+          className="mt-4 ml-6 font-semibold text-4xl mb-2.5"
         >
           Ordered Items
         </Text>
@@ -120,20 +115,35 @@ export default function OrderDetailsScreen() {
           >
             <Text
               style={{ color: themeColors.text }}
-              className="text-xl text-white font-bold"
+              className="text-xl text-black font-bold mb-1"
             >
               {item.name}
             </Text>
-            <Text className="text-sm text-white font-semi mt-0.5">
-              Item ID: {item.id}
+            <Text className="text-sm text-black font-bold">
+              {item.description}
             </Text>
+
             <View className="flex-row">
-              <Text className="text-lg text-white font-bold">Quantity:</Text>
               <Text
                 style={{ color: themeColors.text }}
-                className="ml-2 text-lg text-white font-bold"
+                className="text-sm text-black font-bold"
+              >
+                Quantity:
+              </Text>
+              <Text
+                style={{ color: themeColors.text }}
+                className="ml-2 text-sm text-black font-bold"
               >
                 {item.quantity}
+              </Text>
+            </View>
+            <View className="flex-row mt-2">
+              <Text className="text-lg text-black font-bold">Price:</Text>
+              <Text
+                style={{ color: themeColors.text }}
+                className="ml-2 text-lg text-black font-bold"
+              >
+                {item.price}
               </Text>
             </View>
           </View>

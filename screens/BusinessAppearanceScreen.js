@@ -3,6 +3,8 @@ import React from "react";
 import * as Icon from "react-native-feather";
 import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
+import { ScrollView } from "react-native";
+import NotificationCard from "../components/notificationCard";
 
 export default function BusinessAppearanceScreen() {
   const navigation = useNavigation();
@@ -27,6 +29,9 @@ export default function BusinessAppearanceScreen() {
           Notifications
         </Text>
       </View>
+      <ScrollView className="mt-32">
+        <NotificationCard />
+      </ScrollView>
     </SafeAreaView>
   );
 }

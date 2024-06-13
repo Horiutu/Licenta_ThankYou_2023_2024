@@ -15,7 +15,7 @@ import BackButtonBlack from "../components/backButtonBlack";
 import ReserveATable from "../components/reserveATable";
 import CancelButton from "../components/cancelButton";
 import BackButtonWhite from "../components/backButtonWhite";
-import BackButtonRed from "../components/backButtonRed";
+
 import { useRoute } from "@react-navigation/native";
 
 export default function ReservationPageScreen() {
