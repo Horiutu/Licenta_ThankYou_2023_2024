@@ -80,12 +80,12 @@ export default function StatusOrder({ loggedInBusinessCode, orderId }) {
           className="p-2 rounded-full shadow bg-stone-800 ml-2"
           style={{
             borderWidth: 2,
-            borderColor: status === "Accepted" ? "chartreuse" : "transparent",
+            borderColor: status === "Served" ? "chartreuse" : "transparent",
           }}
-          onPress={() => updateStatus("Accepted")}
+          onPress={() => updateStatus("Served")}
         >
           <Text style={{ color: "chartreuse" }} className="px-2">
-            Accepted
+            Served
           </Text>
         </TouchableOpacity>
       </View>
@@ -107,12 +107,12 @@ export default function StatusOrder({ loggedInBusinessCode, orderId }) {
           className="p-2 rounded-full shadow bg-stone-800 ml-2"
           style={{
             borderWidth: 2,
-            borderColor: status === "Completed" ? "darkgreen" : "transparent",
+            borderColor: status === "Paid" ? "purple" : "transparent",
           }}
-          onPress={() => updateStatus("Completed")}
+          onPress={() => updateStatus("Paid")}
         >
-          <Text style={{ color: "darkgreen" }} className="px-2">
-            Completed
+          <Text style={{ color: "purple" }} className="px-2">
+            Paid
           </Text>
         </TouchableOpacity>
         <TouchableOpacity

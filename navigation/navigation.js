@@ -45,10 +45,10 @@ function PendingScreen() {
   const navigation = useNavigation();
 
   useEffect(() => {
-    AsyncStorage.getItem("isBusinessAccount")
+    AsyncStorage.getItem("businessInfo")
       .then((res) => {
-        const isBusinessAccount = JSON.parse(res);
-        if (isBusinessAccount) {
+        const businessInfo = JSON.parse(res);
+        if (businessInfo.isBusinessAccount) {
           console.log("here");
           navigation.navigate("BusinessHome");
         } else {

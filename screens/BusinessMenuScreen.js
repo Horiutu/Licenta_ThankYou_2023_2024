@@ -1,39 +1,77 @@
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
-  ScrollView,
-  SafeAreaView,
   TouchableOpacity,
+  SafeAreaView,
+  FlatList,
 } from "react-native";
-import React from "react";
-import * as Icon from "react-native-feather";
 import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
-import FoodMenu from "../components/foodMenu";
+import BackButtonRed from "../components/backButtonRed";
+import { FIRESTORE_DBDB } from "../services/config";
+import { ref, onValue } from "firebase/database";
+import ReservationBusinessCard from "../components/businessReservationCard";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Spinner from "../components/spinner";
+import ItemBusinessCard from "../components/businessItemCard";
 
-export default function BusinessMenuScreen() {
+export default function BusinessReservationsScreen() {
   const navigation = useNavigation();
+  const [items, setItems] = useState([]);
+  const [businessCode, setBusinessCode] = useState("");
+
+  useEffect(() => {
+    AsyncStorage.getItem("businessInfo")
+      .then((res) => setBusinessCode(JSON.parse(res).businessId))
+      .catch((err) => console.error(err));
+  }, []);
+
+  useEffect(() => {
+    if (businessCode !== "") {
+      const itemRef = ref(FIRESTORE_DBDB, `reservations/${businessCode}`);
+      const unsubscribe = onValue(itemRef, (snapshot) => {
+        const data = snapshot.val();
+        const itemsList = data
+          ? Object.keys(data).map((key) => ({ id: key, ...data[key] }))
+          : [];
+        setItems(itemsList);
+      });
+
+      return () => unsubscribe();
+    }
+  }, [businessCode]);
+
+  if (businessCode === "") {
+    return <Spinner />;
+  }
+
+  const renderItem = ({ item }) => (
+    <TouchableOpacity>
+      <ItemBusinessCard item={item} />
+    </TouchableOpacity>
+  );
+
   return (
     <SafeAreaView className="bg-stone-900 flex-1">
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        className="absolute w-24 ml-3 items-center top-14 left-3 bg-white py-1 rounded-full"
+      <BackButtonRed />
+      <View
+        style={{ flexDirection: "row", alignItems: "center" }}
+        className="mt-12 mb-4 ml-3"
       >
-        <Icon.ArrowLeft strokeWidth={3} stroke={themeColors.bgColor(1)} />
-      </TouchableOpacity>
-
-      <View className="absolute top-28">
         <Text
           style={{ fontSize: 44, color: themeColors.text }}
-          className="font-bold ml-6 text-white pb-8"
+          className="font-bold ml-3 text-white"
         >
-          Menu
+          Menu Items
         </Text>
       </View>
-
-      <ScrollView className="top-36">
-        <FoodMenu />
-      </ScrollView>
+      <FlatList
+        data={items}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+        contentContainerStyle={{ paddingBottom: 20 }}
+      />
     </SafeAreaView>
   );
 }

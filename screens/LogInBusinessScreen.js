@@ -12,7 +12,7 @@ import * as Icon from "react-native-feather";
 import { themeColors } from "../theme";
 import { isUserAuthenticated, login, logout } from "../services/userSignIn";
 import { emailVerification } from "../services/utils";
-import BackButtonWhite from "../components/backButtonWhite";
+import BackButtonRed from "../components/backButtonRed";
 
 export default function LogInBusinessScreen() {
   const navigation = useNavigation();
@@ -67,14 +67,14 @@ export default function LogInBusinessScreen() {
   };
 
   return (
-    <SafeAreaView className="bg-stone-900 flex-1 justify-center">
-      <BackButtonWhite />
+    <SafeAreaView className="bg-stone-900 flex-1 ">
+      <BackButtonRed />
 
       <View
         style={{ flexDirection: "row", alignItems: "center" }}
-        className="ml-2"
+        className="mt-44 ml-5"
       >
-        <Text className="font-bold ml-3 text-white text-4xl"> Log In</Text>
+        <Text className="font-bold text-white text-4xl"> Log In</Text>
         <Text className="font-thin text-white text-4xl"> Business</Text>
       </View>
 
@@ -145,14 +145,14 @@ export default function LogInBusinessScreen() {
         </View>
       </View>
 
-      <View className="absolute bottom-48 w-full z-50">
+      <View className="mt-10">
         <TouchableOpacity
           style={{ backgroundColor: themeColors.bgColor(1) }}
+          className="justify-center items-center mx-7 rounded-r-lg rounded-l-lg py-3"
           onPress={handleLogin}
-          className="flex-row justify-center items-center mx-7 rounded-r-lg rounded-l-lg py-3"
         >
           <View>
-            <Text className="flex-1 text-center font-extrabold text-white text-lg">
+            <Text className="text-center font-extrabold text-white text-lg">
               Log In
             </Text>
           </View>

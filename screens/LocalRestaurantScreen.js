@@ -20,52 +20,53 @@ export default function LocalRestaurantScreen() {
   const [restaurantData, setRestaurantData] = useState(null);
 
   useEffect(() => {
-    const dbRef = ref(getDatabase());
+    const fetchData = async () => {
+      const dbRef = ref(getDatabase());
+      const storage = getStorage();
 
-    get(child(dbRef, `restaurants/${item.restaurantId}`))
-      .then(async (snapshot) => {
-        const storage = getStorage();
-
+      try {
+        const snapshot = await get(
+          child(dbRef, `restaurants/${item.restaurantId}`)
+        );
         if (snapshot.exists()) {
           const data = snapshot.val();
 
-          for (const menuKey of Object.keys(data.menus)) {
+          const menuKeys = Object.keys(data.menus);
+          for (const menuKey of menuKeys) {
             const menu = data.menus[menuKey];
-
-            await Promise.all(
-              Object.keys(menu.items).map(async (key) => {
+            const itemKeys = Object.keys(menu.items);
+            const itemImageUrls = await Promise.all(
+              itemKeys.map(async (key) => {
                 const item = menu.items[key];
-                item.imageUrl = await getDownloadURL(
+                const imageUrl = await getDownloadURL(
                   refStorage(storage, item.image)
                 );
+                return { key, imageUrl };
               })
             );
+
+            itemImageUrls.forEach(({ key, imageUrl }) => {
+              menu.items[key].imageUrl = imageUrl;
+            });
           }
 
           const imageUrl = data.image;
           const storageRef = refStorage(storage, imageUrl);
-
-          getDownloadURL(storageRef).then((url) => {
-            const xhr = new XMLHttpRequest();
-            xhr.responseType = "blob";
-            xhr.onload = function (event) {
-              const blob = xhr.response;
-            };
-            xhr.open("GET", url);
-            xhr.send();
-            setRestaurantData({ ...data, url });
-          });
+          const url = await getDownloadURL(storageRef);
+          setRestaurantData({ ...data, url });
         } else {
           console.log("No data available");
         }
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error(error);
-      });
-  }, []);
+      }
+    };
+
+    fetchData();
+  }, [item.restaurantId]);
 
   const handleDeepLink = (event) => {
-    let data = Linking.parse(event.url);
+    const data = Linking.parse(event.url);
     setData(data);
   };
 
@@ -77,16 +78,16 @@ export default function LocalRestaurantScreen() {
       }
     };
 
-    Linking.addEventListener("url", handleDeepLink);
+    const subscription = Linking.addEventListener("url", handleDeepLink);
 
     if (!data) {
       getInitialURL();
     }
 
     return () => {
-      Linking.removeEventListener("url");
+      subscription.remove();
     };
-  }, []);
+  }, [data]);
 
   if (!restaurantData) {
     return (
@@ -147,7 +148,9 @@ export default function LocalRestaurantScreen() {
         </View>
         <Menu menus={restaurantData.menus} restaurant={restaurantData} />
       </ScrollView>
+
       <FAB linkTo="Cart" />
+      <CartBubble />
     </View>
   );
 }

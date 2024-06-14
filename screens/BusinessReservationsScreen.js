@@ -9,38 +9,52 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
 import BackButtonRed from "../components/backButtonRed";
-import OrderBusinessCard from "../components/ordersBusiness";
 import { FIRESTORE_DBDB } from "../services/config";
 import { ref, onValue } from "firebase/database";
 import ReservationBusinessCard from "../components/businessReservationCard";
-
-const loggedInBusinessCode = "taco_fiesta";
+import OrderBusinessCard from "../components/ordersBusiness";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Spinner from "../components/spinner";
 
 export default function BusinessReservationsScreen() {
   const navigation = useNavigation();
   const [reservations, setReservations] = useState([]);
-  useEffect(() => {
-    const reservationRef = ref(
-      FIRESTORE_DBDB,
-      `reservations/${loggedInBusinessCode}`
-    );
-    const unsubscribe = onValue(reservationRef, (snapshot) => {
-      const data = snapshot.val();
-      const reservationsList = data
-        ? Object.keys(data).map((key) => ({ id: key, ...data[key] }))
-        : [];
-      setReservations(reservationsList);
-    });
+  const [businessCode, setBusinessCode] = useState("");
 
-    return () => unsubscribe();
+  useEffect(() => {
+    AsyncStorage.getItem("businessInfo")
+      .then((res) => setBusinessCode(JSON.parse(res).businessId))
+      .catch((err) => console.error(err));
   }, []);
+
+  useEffect(() => {
+    if (businessCode !== "") {
+      const reservationRef = ref(
+        FIRESTORE_DBDB,
+        `reservations/${businessCode}`
+      );
+      const unsubscribe = onValue(reservationRef, (snapshot) => {
+        const data = snapshot.val();
+        const reservationsList = data
+          ? Object.keys(data).map((key) => ({ id: key, ...data[key] }))
+          : [];
+        setReservations(reservationsList);
+      });
+
+      return () => unsubscribe();
+    }
+  }, [businessCode]);
+
+  if (businessCode === "") {
+    return <Spinner />;
+  }
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
       onPress={() =>
         navigation.navigate("ReservationDetails", {
           reservation: item,
-          loggedInBusinessCode: loggedInBusinessCode,
+          loggedInBusinessCode: businessCode,
         })
       }
     >

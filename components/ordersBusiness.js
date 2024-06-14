@@ -1,9 +1,7 @@
-import { View, Text, TouchableWithoutFeedback } from "react-native";
+import { View, Text } from "react-native";
 import React from "react";
 import { themeColors } from "../theme";
-import * as Icon from "react-native-feather";
 import { useNavigation } from "@react-navigation/native";
-import { TouchableOpacity } from "react-native";
 
 export default function OrderBusinessCard({ order }) {
   const navigation = useNavigation();
@@ -22,10 +20,31 @@ export default function OrderBusinessCard({ order }) {
   const formattedMonth = orderExactMonth.toString().padStart(2, "0");
 
   const lastFourId = order.id.slice(-4);
+
+  // Determine border color based on order status
+  const getBorderColor = (status) => {
+    switch (status) {
+      case "Sent":
+        return "orange";
+      case "In progress":
+        return "yellow";
+      case "Served":
+        return "green";
+      case "Paid":
+        return "purple";
+      case "Declined":
+        return "red";
+      case "Waiter is coming":
+        return "aqua";
+      default:
+        return themeColors.bgColor(1);
+    }
+  };
+
   return (
     <View>
       <View
-        style={{ borderWidth: 2, borderColor: themeColors.bgColor(1) }}
+        style={{ borderWidth: 2, borderColor: getBorderColor(order.status) }}
         className="mt-2 items-center mr-6 ml-6 mb-1 py-4 bg-stone-800 rounded-2xl shadow flex-row"
       >
         <View style={{ flexDirection: "row" }}>

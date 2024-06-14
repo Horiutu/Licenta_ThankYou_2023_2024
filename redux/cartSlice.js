@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const cartSlice = createSlice({
-  name: 'cart',
+  name: "cart",
   initialState: {
     items: [],
     totalAmount: 0,
@@ -14,7 +14,9 @@ const cartSlice = createSlice({
         throw new Error("You cannot order from multiple restaurants!");
       }
 
-      const existingProductIndex = state.items.findIndex(p => p.id === product.id);
+      const existingProductIndex = state.items.findIndex(
+        (p) => p.id === product.id
+      );
       if (existingProductIndex >= 0) {
         state.items[existingProductIndex].quantity++;
       } else {
@@ -26,14 +28,21 @@ const cartSlice = createSlice({
     },
     removeItemFromCart: (state, action) => {
       const id = action.payload;
-      const itemIndex = state.items.findIndex(item => item.id === id);
+      const itemIndex = state.items.findIndex((item) => item.id === id);
       if (itemIndex >= 0) {
-        state.totalAmount -= parseFloat(state.items[itemIndex].price) * parseFloat(state.items[itemIndex].quantity);
+        state.totalAmount -=
+          parseFloat(state.items[itemIndex].price) *
+          parseFloat(state.items[itemIndex].quantity);
         state.items.splice(itemIndex, 1);
       }
+    },
+    resetItemsInCart: (state, action) => {
+      state.items = [];
+      state.totalAmount = 0;
     },
   },
 });
 
-export const { addItemToCart, removeItemFromCart } = cartSlice.actions;
+export const { addItemToCart, removeItemFromCart, resetItemsInCart } =
+  cartSlice.actions;
 export default cartSlice.reducer;

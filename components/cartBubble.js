@@ -16,18 +16,20 @@ const CartBubble = () => {
 
 const styles = StyleSheet.create({
   bubble: {
-    backgroundColor: themeColors.bgColor(1),
+    backgroundColor: "white",
     borderRadius: 15,
-    width: 30,
+    borderColor: themeColors.text,
+    borderWidth: 2,
+    width: 50,
     height: 30,
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
-    top: -10,
-    right: -10,
+    bottom: 40,
+    right: 65,
   },
   text: {
-    color: "white",
+    color: themeColors.text,
     fontSize: 16,
     fontWeight: "bold",
   },

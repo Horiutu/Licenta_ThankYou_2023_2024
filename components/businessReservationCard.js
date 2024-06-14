@@ -1,9 +1,7 @@
-import { View, Text, TouchableWithoutFeedback } from "react-native";
+import { View, Text } from "react-native";
 import React from "react";
 import { themeColors } from "../theme";
-import * as Icon from "react-native-feather";
 import { useNavigation } from "@react-navigation/native";
-import { TouchableOpacity } from "react-native";
 
 export default function ReservationBusinessCard({ reservation }) {
   const navigation = useNavigation();
@@ -31,10 +29,27 @@ export default function ReservationBusinessCard({ reservation }) {
   const formattedReservationMonth = reservationExactMonth
     .toString()
     .padStart(2, "0");
+
+  const getBorderColor = (status) => {
+    switch (status) {
+      case "Pending request":
+        return "orange";
+      case "Declined":
+        return "red";
+      case "Accepted":
+        return "chartreuse";
+      default:
+        return themeColors.bgColor(1);
+    }
+  };
+
   return (
     <View>
       <View
-        style={{ borderWidth: 2, borderColor: themeColors.bgColor(1) }}
+        style={{
+          borderWidth: 2,
+          borderColor: getBorderColor(reservation.status),
+        }}
         className="mt-2 items-center mr-6 ml-6 mb-1 py-4 bg-stone-800 rounded-2xl shadow flex-row"
       >
         <View style={{ flexDirection: "row" }}>

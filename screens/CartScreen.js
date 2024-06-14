@@ -19,6 +19,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState, useEffect } from "react";
 import { child, set, getDatabase, ref } from "firebase/database";
 import { useNavigation } from "@react-navigation/native";
+import { resetItemsInCart } from "../redux/cartSlice";
 
 export default function CartScreen() {
   const cartItems = useSelector((state) => state.cart.items);
@@ -61,7 +62,7 @@ export default function CartScreen() {
       );
       await set(orderRef, order);
       Alert.alert("Order Successful", "Your order has been placed.");
-      // Clear the cart or navigate back
+      dispatch(resetItemsInCart);
       navigation.navigate("Home");
     } catch (error) {
       Alert.alert("Order Failed", "There was an error placing your order.");

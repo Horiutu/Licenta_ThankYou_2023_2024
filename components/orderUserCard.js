@@ -48,7 +48,7 @@ export default function OrderUserCard({
 
   const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
-      case "accepted":
+      case "served":
         return "chartreuse";
       case "sent":
         return "orange";
@@ -56,7 +56,7 @@ export default function OrderUserCard({
         return "yellow";
       case "declined":
         return "red";
-      case "completed":
+      case "paid":
         return "darkgreen";
       case "waiter is coming":
         return "aqua";
@@ -67,7 +67,7 @@ export default function OrderUserCard({
 
   const getStatusTextColor = (status) => {
     switch (status.toLowerCase()) {
-      case "accepted":
+      case "served":
         return "black";
       case "sent":
         return "white";
@@ -75,7 +75,7 @@ export default function OrderUserCard({
         return "black";
       case "declined":
         return "white";
-      case "completed":
+      case "paid":
         return "white";
       case "waiter is coming":
         return "black";
@@ -86,7 +86,12 @@ export default function OrderUserCard({
 
   return (
     <TouchableWithoutFeedback
-      onPress={() => navigation.navigate("UserOrderDetails", { order: item })}
+      onPress={() =>
+        navigation.navigate("UserOrderDetails", {
+          order: item,
+          restaurant: restaurant,
+        })
+      }
     >
       <View className="mr-6 mb-6 ml-6 bg-white rounded-3xl shadow-lg">
         <Image
@@ -96,10 +101,10 @@ export default function OrderUserCard({
             resizeMode: "cover",
             height: 100,
             width: 345,
-          }}
+          }} //
         />
         <View className="px-3 pb-4 space-y-2">
-          <View className="flex-row items-center flex-row">
+          <View className="flex-row items-center ">
             <Text className="text-3xl font-bold pt-2">Order</Text>
             <Text className="ml-2 text-3xl text-black font-bold pt-2">#</Text>
             <Text

@@ -13,6 +13,7 @@ import { themeColors } from "../theme";
 import { isUserAuthenticated, login, logout } from "../services/userSignIn";
 import { emailVerification } from "../services/utils";
 import Spinner from "../components/spinner";
+import BackButtonRed from "../components/backButtonRed";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -70,15 +71,10 @@ export default function LoginScreen() {
   }
 
   return (
-    <SafeAreaView className="bg-stone-900 flex-1 justify-center">
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        className="absolute w-24 ml-3 items-center top-14 left-3 bg-white p-1 rounded-full"
-      >
-        <Icon.ArrowLeft strokeWidth={3} stroke={themeColors.bgColor(1)} />
-      </TouchableOpacity>
+    <SafeAreaView className="bg-stone-900 flex-1">
+      <BackButtonRed />
 
-      <View className="px-25 ml-3">
+      <View className="px-25 ml-3 mt-44">
         <Text className="font-bold ml-3 text-white text-4xl mb-30 mt-10">
           {" "}
           Log In
@@ -133,20 +129,22 @@ export default function LoginScreen() {
         </View>
       </View>
 
-      <View className="absolute bottom-36 w-full z-50">
-        <TouchableOpacity
-          style={{ backgroundColor: themeColors.bgColor(1) }}
-          className="flex-row justify-center items-center mx-7 rounded-r-lg rounded-l-lg py-3"
-          onPress={handleLogin}
-        >
-          <View>
-            <Text className="flex-1 text-center font-extrabold text-white text-lg">
-              Log In
-            </Text>
-          </View>
-        </TouchableOpacity>
+      <View className="mt-10">
+        <View className="">
+          <TouchableOpacity
+            style={{ backgroundColor: themeColors.bgColor(1) }}
+            className="justify-center items-center mx-7 rounded-r-lg rounded-l-lg py-3"
+            onPress={handleLogin}
+          >
+            <View>
+              <Text className="text-center font-extrabold text-white text-lg">
+                Log In
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
 
-        <View className="py-2 items-center">
+        <View className="py-2 mt-2 items-center">
           <Text className="text-gray-400">
             Or, if you don't have an account...{" "}
           </Text>

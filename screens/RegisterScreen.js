@@ -13,6 +13,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import * as Icon from "react-native-feather";
 import { themeColors } from "../theme";
 import Spinner from "../components/spinner";
+import BackButtonRed from "../components/backButtonRed";
 
 export default function RegisterScreen() {
   const [email, setEmail] = useState("");
@@ -54,12 +55,7 @@ export default function RegisterScreen() {
 
   return (
     <SafeAreaView className="bg-stone-900 flex-1 justify-center">
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        className="absolute w-24 ml-3 items-center top-14 left-3 bg-gray-50 p-1 rounded-full"
-      >
-        <Icon.ArrowLeft strokeWidth={3} stroke={themeColors.bgColor(1)} />
-      </TouchableOpacity>
+      <BackButtonRed />
 
       <View className="px-25 mb-64 ml-3 ">
         <Text className="font-bold ml-3 text-white text-4xl mb-30 mt-10">

@@ -57,7 +57,7 @@ export default function UserAppearanceScreen({ route }) {
               restaurant={allRestaurants.find(
                 (r) => r.id === order.restaurantId
               )}
-              orderId={order.orderId} // Pass the orderId
+              orderId={order.orderId}
               orderStatus={order.status}
             />
           );

@@ -5,7 +5,10 @@ import { child, get, getDatabase, ref } from "firebase/database";
 
 export const login = async (email, password, businessCode = "") => {
   try {
-    let isBusinessAccount = false;
+    const businessInfo = {
+      isBusinessAccount: false,
+      businessId: "",
+    };
 
     if (businessCode && businessCode.length > 0) {
       const dbRef = ref(getDatabase());
@@ -23,16 +26,14 @@ export const login = async (email, password, businessCode = "") => {
           throw new Error("The current account is not part of the business");
         }
 
-        isBusinessAccount = true;
+        businessInfo.isBusinessAccount = true;
+        businessInfo.businessId = businessData.restaurantId;
       } else {
         console.log("No data available");
       }
     }
 
-    await AsyncStorage.setItem(
-      "isBusinessAccount",
-      JSON.stringify(isBusinessAccount)
-    );
+    await AsyncStorage.setItem("businessInfo", JSON.stringify(businessInfo));
     const userCredential = await signInWithEmailAndPassword(
       FIREBASE_AUTH,
       email,
@@ -42,7 +43,7 @@ export const login = async (email, password, businessCode = "") => {
     await AsyncStorage.setItem("user", JSON.stringify(user));
     return user;
   } catch (err) {
-    await AsyncStorage.removeItem("isBusinessAccount");
+    await AsyncStorage.removeItem("businessInfo");
     console.error(err);
     throw err;
   }
@@ -60,7 +61,7 @@ const fireBaseLogout = async () => {
 
 export const logout = async () => {
   await AsyncStorage.removeItem("user");
-  await AsyncStorage.removeItem("isBusinessAccount");
+  await AsyncStorage.removeItem("businessInfo");
   await fireBaseLogout();
 };
 

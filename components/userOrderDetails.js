@@ -3,40 +3,59 @@ import {
   Text,
   SafeAreaView,
   ScrollView,
+  Image,
   TouchableOpacity,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
-import React from "react";
-import * as Icon from "react-native-feather";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { themeColors } from "../theme";
 import BackButtonBlack from "../components/backButtonBlack";
-import BackButtonWhite from "../components/backButtonWhite";
-import OrderBusinessCard from "../components/ordersBusiness";
-import BackButtonRed from "../components/backButtonRed";
-import StatusOrder from "../components/setOrderStatus";
-import PayNowButton from "./payNowButton";
+import { getDatabase, ref, update } from "firebase/database";
+import { FIRESTORE_DBDB } from "../services/config";
+import { rest } from "lodash";
 
 export default function UserOrderDetailsScreen() {
   const navigation = useNavigation();
   const route = useRoute();
-  const { order } = route.params;
+  const { order, restaurant } = route.params;
+
+  const [orderStatus, setOrderStatus] = useState(order.status);
+
+  const updateStatus = (newStatus) => {
+    const statusRef = ref(
+      FIRESTORE_DBDB,
+      `orders/${restaurant.id}/${order.orderId}`
+    );
+    update(statusRef, {
+      status: newStatus,
+    })
+      .then(() => {
+        setOrderStatus(newStatus);
+        console.log("Status updated successfully");
+      })
+      .catch((error) => {
+        console.error("Error updating status: ", error);
+      });
+  };
+
+  const handlePayNow = () => {
+    updateStatus("Paid");
+  };
 
   const lastFourId = order.orderId.slice(-4);
 
   const orderDate = new Date(order.date);
-
-  const orderUTCHour = orderDate.getUTCHours();
-  const orderUTCMinutes = orderDate.getUTCMinutes();
-
-  const formattedOrderHour = orderUTCHour.toString().padStart(2, "0");
-  const formattedOrderMinutes = orderUTCMinutes.toString().padStart(2, "0");
-
-  const orderExactDay = orderDate.getDate();
-  const orderExactMonth = orderDate.getMonth() + 1;
-
-  const formattedDay = orderExactDay.toString().padStart(2, "0");
-  const formattedMonth = orderExactMonth.toString().padStart(2, "0");
+  const formattedOrderHour = orderDate
+    .getUTCHours()
+    .toString()
+    .padStart(2, "0");
+  const formattedOrderMinutes = orderDate
+    .getUTCMinutes()
+    .toString()
+    .padStart(2, "0");
+  const formattedDay = orderDate.getDate().toString().padStart(2, "0");
+  const formattedMonth = (orderDate.getMonth() + 1).toString().padStart(2, "0");
 
   return (
     <SafeAreaView className="bg-white flex-1">
@@ -50,8 +69,7 @@ export default function UserOrderDetailsScreen() {
         }}
         className="mt-12 mb-4 pb-2"
       >
-        <Text style={{ fontSize: 44 }} className="font-bold ml-3 text-black">
-          {" "}
+        <Text style={{ fontSize: 44 }} className="font-bold ml-6 text-black">
           Order
         </Text>
         <Text style={{ fontSize: 44 }} className="font-bold ml-3 text-black">
@@ -65,7 +83,7 @@ export default function UserOrderDetailsScreen() {
         </Text>
       </View>
 
-      <View className="ml-3 flex-row">
+      <View className="ml-3 flex-row mt-3">
         <Text
           style={{ color: themeColors.text }}
           className="ml-3 font-bold text-2xl mb-3"
@@ -89,9 +107,37 @@ export default function UserOrderDetailsScreen() {
         </Text>
       </View>
 
-      <View className="mx-6">
-        <PayNowButton />
-      </View>
+      {orderStatus === "Served" && (
+        <View className="mx-6">
+          <TouchableOpacity
+            className="rounded-full"
+            style={{ backgroundColor: themeColors.bgColor(1) }}
+            onPress={handlePayNow}
+          >
+            <View className="items-center p-2">
+              <Text className="ml-2 text-white font-bold">Pay Now</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      )}
+
+      {orderStatus === "Paid" && (
+        <View className="mx-6 flex-row">
+          <Text style={{ color: "darkgreen" }} className="font-bold text-xl">
+            You already paid this order
+          </Text>
+          <Image
+            className="ml-2"
+            source={require("../assets/images/checkmark.png")}
+            style={{
+              resizeMode: "cover",
+              height: 25,
+              width: 25,
+              tintColor: "darkgreen",
+            }}
+          />
+        </View>
+      )}
 
       <View
         style={{ borderTopColor: themeColors.text, borderTopWidth: 2 }}
