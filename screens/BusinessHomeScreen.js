@@ -45,7 +45,7 @@ export default function BusinessHomeScreen() {
           </Text>
         </View>
 
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
+        {/* <View style={{ flexDirection: "row", alignItems: "center" }}>
           <TouchableOpacity
             onPress={() => navigation.navigate("BusinessAppearance")}
             className="pb-3"
@@ -119,11 +119,11 @@ export default function BusinessHomeScreen() {
             strokeWidth={3}
             stroke={themeColors.bgColor(1)}
           />
-        </View>
+        </View> */}
 
         <TouchableOpacity
           onPress={() => navigation.navigate("BusinessOrders")}
-          className="absolute bottom-44 pb-3"
+          className="pt-10 pb-3"
         >
           <Text
             style={{ color: themeColors.text2 }}
@@ -135,7 +135,7 @@ export default function BusinessHomeScreen() {
 
         <TouchableOpacity
           onPress={() => navigation.navigate("BusinessReservations")}
-          className="absolute bottom-32 pb-2"
+          className="pb-2"
         >
           <Text
             style={{ color: themeColors.text2 }}

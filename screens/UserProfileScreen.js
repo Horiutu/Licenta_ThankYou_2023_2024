@@ -207,7 +207,7 @@ export default function UserProfileScreen() {
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate("UserAppearance", {
+            navigation.navigate("UserOrders", {
               orders: orders.map((order) => ({
                 ...order,
                 orderId: order.orderId,
@@ -258,7 +258,7 @@ export default function UserProfileScreen() {
         />
       </View>
 
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
+      {/* <View style={{ flexDirection: "row", alignItems: "center" }}>
         <TouchableOpacity
           onPress={() => navigation.navigate("UserFinance")}
           className="pb-3"
@@ -275,7 +275,7 @@ export default function UserProfileScreen() {
           strokeWidth={3}
           stroke={themeColors.bgColor(1)}
         />
-      </View>
+      </View> */}
 
       <View className="ml-6 pt-6 pb-2">
         <Text className="text-2xl font-thin font-s">Your next reservation</Text>

@@ -21,7 +21,6 @@ export default function OrderBusinessCard({ order }) {
 
   const lastFourId = order.id.slice(-4);
 
-  // Determine border color based on order status
   const getBorderColor = (status) => {
     switch (status) {
       case "Sent":

@@ -4,7 +4,6 @@ import "firebase/auth";
 import { firebaseConfig } from "../services/config";
 import { getAuth } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, ActivityIndicator } from "react-native";
 import Spinner from "./spinner";
 
 if (getApps().length < 1) {

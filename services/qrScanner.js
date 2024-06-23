@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   },
   unfocusedContainer: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)", // This sets the top and bottom areas to be darkened.
+    backgroundColor: "rgba(0,0,0,0.5)",
     width: "100%",
   },
   middleContainer: {
@@ -109,13 +109,13 @@ const styles = StyleSheet.create({
   },
   unfocusedSide: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)", // This now matches the top and bottom unfocused area color.
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
   focusedBox: {
     height: 300,
     width: 300,
     borderWidth: 0,
-    borderColor: themeColors.bgColor(1), // Ensure this is visible against the dark background.
+    borderColor: themeColors.bgColor(1),
     backgroundColor: "transparent",
   },
   button: {

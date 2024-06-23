@@ -43,7 +43,6 @@ export default function ReservationCard({
   const reservationUTCHour = reservationHour.getUTCHours();
   const reservationUTCMinutes = reservationHour.getUTCMinutes();
 
-  // Format the hours and minutes to always display two digits
   const formattedHour = reservationUTCHour.toString().padStart(2, "0");
   const formattedMinutes = reservationUTCMinutes.toString().padStart(2, "0");
 

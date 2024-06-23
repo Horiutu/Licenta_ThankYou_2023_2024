@@ -19,7 +19,7 @@ import ReservationDetailsScreen from "../screens/BusinessReservationDetails";
 import BusinessScheduleScreen from "../screens/BusinessScheduleScreen";
 import BusinessSettingsScreen from "../screens/BusinessSettingsScreen";
 import UserProfileScreen from "../screens/UserProfileScreen";
-import UserAppearanceScreen from "../screens/UserAppearanceScreen";
+import UserOrdersScreen from "../screens/UserOrdersScreen";
 import UserReservationsScreen from "../screens/UserReservationsScreen";
 import UserFinanceScreen from "../screens/UserFinanceScreen";
 import UserSettingsScreen from "../screens/UserSettingsScreen";
@@ -146,10 +146,7 @@ export default function Navigation() {
           />
           <Stack.Screen name="Cart" component={CartScreen} />
           <Stack.Screen name="UserProfile" component={UserProfileScreen} />
-          <Stack.Screen
-            name="UserAppearance"
-            component={UserAppearanceScreen}
-          />
+          <Stack.Screen name="UserOrders" component={UserOrdersScreen} />
           <Stack.Screen
             name="UserOrderDetails"
             component={UserOrderDetailsScreen}

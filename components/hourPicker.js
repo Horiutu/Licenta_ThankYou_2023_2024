@@ -29,10 +29,10 @@ const HourSelector = ({
 
   const handleConfirm = (date) => {
     const validStartTime = new Date();
-    validStartTime.setHours(openHour, openMinutes, 0); // Open hour from props
+    validStartTime.setHours(openHour, openMinutes, 0);
 
     const validEndTime = new Date();
-    validEndTime.setHours(closingHour, closingMinutes, 0); // Closing hour from props
+    validEndTime.setHours(closingHour, closingMinutes, 0);
 
     if (date >= validStartTime && date <= validEndTime) {
       setSelectedHour(date);

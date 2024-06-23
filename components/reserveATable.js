@@ -30,7 +30,6 @@ export default function ReserveATable({ restaurantId }) {
       setUserName(auth.displayName);
       setUserId(auth.uid);
 
-      // Fetch restaurant data
       const dbRef = ref(getDatabase());
       const snapshot = await get(child(dbRef, `restaurants/${restaurantId}`));
       if (snapshot.exists()) {
@@ -58,8 +57,6 @@ export default function ReserveATable({ restaurantId }) {
       specialRequest,
       status,
     };
-
-    console.log(reservation);
 
     try {
       const reservationRef = ref(

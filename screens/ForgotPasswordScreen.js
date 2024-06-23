@@ -15,6 +15,7 @@ import { themeColors } from "../theme";
 import * as Icon from "react-native-feather";
 import { FIREBASE_AUTH } from "../services/config";
 import BackButtonWhite from "../components/backButtonWhite";
+import BackButtonRed from "../components/backButtonRed";
 
 export default function ForgotPasswordScreen() {
   const [email, setEmail] = useState("");
@@ -36,7 +37,7 @@ export default function ForgotPasswordScreen() {
 
   return (
     <SafeAreaView className="bg-stone-900 flex-1 justify-center">
-      <BackButtonWhite />
+      <BackButtonRed />
       <View className="items-center">
         <Text className="font-bold ml-3 text-white text-2xl">
           Forgot your password?

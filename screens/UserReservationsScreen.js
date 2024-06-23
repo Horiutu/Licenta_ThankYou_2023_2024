@@ -10,8 +10,6 @@ import { useRoute } from "@react-navigation/native";
 export default function UserReservationsScreen({ route }) {
   const navigation = useNavigation();
   const { reservations, allRestaurants } = route.params;
-
-  // Sort reservations by date
   const sortedReservations = [...reservations].sort(
     (a, b) => new Date(a.date) - new Date(b.date)
   );
@@ -46,8 +44,6 @@ export default function UserReservationsScreen({ route }) {
 
       <ScrollView className="mt-6">
         {sortedReservations.map((reservation) => {
-          const restId = reservation.restaurantId;
-          const restaurant = allRestaurants.find((r) => r.id === restId);
           return (
             <ReservationCard
               key={reservation.reservationId}
@@ -56,7 +52,7 @@ export default function UserReservationsScreen({ route }) {
                 (r) => r.id === reservation.restaurantId
               )}
               reservationStatus={reservation.status}
-              reservationId={reservation.reservationId} // Pass the reservationId
+              reservationId={reservation.reservationId}
             />
           );
         })}
